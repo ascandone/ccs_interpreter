@@ -1,0 +1,122 @@
+import { Agent, Program, SelectClause } from "./ast";
+
+export class ExecutionError extends Error {}
+
+type PendingChoice = {
+  resolveAgent(agent: Agent): void;
+  clauses: SelectClause[];
+};
+
+export class Simulation {
+  private readonly agents: Record<string, Agent>;
+  private readonly mainAgent: Agent;
+
+  private pendingChoices: PendingChoice[] = [];
+
+  private listeners: ((pendingsChoices: PendingChoice[]) => void)[] = [];
+
+  private notifyTimeout: number | undefined;
+  private notifyListeners() {
+    // Debounced by next tick
+    clearTimeout(this.notifyTimeout);
+    this.notifyTimeout = setTimeout(() => {
+      for (const listener of this.listeners) {
+        listener(this.pendingChoices);
+      }
+    }, 0);
+  }
+  public onUpdateChoices(
+    callback: (pendingsChoices: PendingChoice[]) => void
+  ): VoidFunction {
+    this.listeners.push(callback);
+    return () => {
+      this.listeners = this.listeners.filter((c) => c !== callback);
+    };
+  }
+
+  constructor(readonly program: Program) {
+    this.agents = Object.fromEntries(
+      program.map(({ name, agent }) => [name, agent])
+    );
+
+    const mainAgent = this.agents.Main;
+    if (mainAgent === undefined) {
+      throw new ExecutionError("Missing Main agent");
+    }
+
+    this.mainAgent = mainAgent;
+  }
+
+  public run(): Promise<void> {
+    return this.exec(this.mainAgent);
+  }
+
+  private lookupChoice(clauses: SelectClause[]): Agent | undefined {
+    for (const newClause of clauses) {
+      for (const pendingChoice of this.pendingChoices) {
+        for (const pendingClause of pendingChoice.clauses) {
+          if (
+            (newClause.evt === pendingClause.evt &&
+              newClause.type === "send" &&
+              pendingClause.type === "receive") ||
+            (newClause.type === "receive" && pendingClause.type === "send")
+          ) {
+            pendingChoice.resolveAgent(pendingClause.after);
+
+            // deque the old pending choice
+            this.pendingChoices = this.pendingChoices.filter(
+              (c) => c !== pendingChoice
+            );
+            this.notifyListeners();
+
+            return newClause.after;
+          }
+        }
+      }
+    }
+
+    return undefined;
+  }
+
+  private async exec(agent: Agent): Promise<void> {
+    switch (agent.type) {
+      case "empty":
+        return;
+
+      case "ident": {
+        const lookup = this.agents[agent.name];
+        if (lookup === undefined) {
+          throw new ExecutionError(`Invalid agent name: ${agent.name}`);
+        }
+
+        return this.exec(lookup);
+      }
+
+      case "choice": {
+        const nextAgent = await new Promise<Agent>((resolveAgent) => {
+          const lookup = this.lookupChoice(agent.clauses);
+          if (lookup !== undefined) {
+            resolveAgent(lookup);
+            return;
+          }
+
+          // Else, put in queue and notify listeners
+          this.pendingChoices.push({
+            resolveAgent,
+            clauses: agent.clauses,
+          });
+          this.notifyListeners();
+        });
+
+        return this.exec(nextAgent);
+      }
+
+      case "par":
+        await Promise.all([this.exec(agent.left), this.exec(agent.right)]);
+        return;
+
+      case "restriction":
+        throw new Error("TODO implement restriction");
+    }
+  }
+}
