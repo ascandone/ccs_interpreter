@@ -180,11 +180,13 @@ export class Simulation {
         ]);
         return;
 
-      case "restriction":
+      case "restriction": {
+        const label = options.paramsScope[agent.label] ?? agent.label;
         return this.exec(agent.agent, {
           ...options,
-          restrictions: { ...options.restrictions, [agent.label]: genID() },
+          restrictions: { ...options.restrictions, [label]: genID() },
         });
+      }
     }
   }
 }
