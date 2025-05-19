@@ -7,7 +7,7 @@ export type Restrictions = Record<string, string>;
 
 export type PendingChoice = {
   resolveProcess(process: Process): void;
-  scope: Restrictions;
+  restrictions: Restrictions;
   clauses: SelectClause[];
 };
 
@@ -77,7 +77,7 @@ export class Simulation {
           const scopedNewClauseEvt =
             restrictions[newClause.evt] ?? newClause.evt;
           const scopedPendingClauseEvt =
-            pendingChoice.scope[pendingClause.evt] ?? pendingClause.evt;
+            pendingChoice.restrictions[pendingClause.evt] ?? pendingClause.evt;
 
           if (
             scopedNewClauseEvt === scopedPendingClauseEvt &&
@@ -157,7 +157,7 @@ export class Simulation {
           }
 
           const choice: PendingChoice = {
-            scope: options.restrictions,
+            restrictions: options.restrictions,
             clauses,
             resolveProcess: (process: Process) => {
               this.pendingChoices = this.pendingChoices.filter(

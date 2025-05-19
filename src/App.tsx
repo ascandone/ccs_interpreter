@@ -74,7 +74,9 @@ const Simulator: FC<{ source: string }> = ({ source }) => {
   const visibleChoices = pendingChoices
     .map((choice) => ({
       ...choice,
-      clauses: choice.clauses.filter((clause) => !(clause.evt in choice.scope)),
+      clauses: choice.clauses.filter(
+        (clause) => !(clause.evt in choice.restrictions),
+      ),
     }))
     .filter((c) => c.clauses.length !== 0);
 
