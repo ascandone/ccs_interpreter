@@ -52,6 +52,13 @@ const Simulator: FC<{ source: string }> = ({ source }) => {
     setRunning(false);
   }
 
+  const visibleChoices = pendingChoices
+    .map((choice) => ({
+      ...choice,
+      clauses: choice.clauses.filter((clause) => !(clause.evt in choice.scope)),
+    }))
+    .filter((c) => c.clauses.length !== 0);
+
   return (
     <div className="w-full">
       {running ? (
@@ -74,13 +81,13 @@ const Simulator: FC<{ source: string }> = ({ source }) => {
 
       <div className="h-2"></div>
 
-      {pendingChoices.length === 0 ? null : (
+      {visibleChoices.length === 0 ? null : (
         <>
           <h4 className="text-base text-gray-700 font-semibold">
             Available actions:
           </h4>
           <ul className="flex flex-col gap-y-2">
-            {pendingChoices.map((choice) => (
+            {visibleChoices.map((choice) => (
               <li className="border border-gray-300 rounded w-full p-2">
                 <ul className="flex gap-x-2">
                   {choice.clauses.map((clause) => (

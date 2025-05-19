@@ -2,11 +2,18 @@ import type { Agent, Program, SelectClause } from "./ast";
 
 export class ExecutionError extends Error {}
 
+export type Scope = Record<string, string>;
+
 export type PendingChoice = {
   resolveAgent(agent: Agent): void;
+  scope: Scope;
   clauses: SelectClause[];
 };
 
+function genID() {
+  const id = Math.floor(Math.random() * 1e7);
+  return `SCOPE__${id}`;
+}
 export class Simulation {
   private readonly agents: Record<string, Agent>;
   private readonly mainAgent: Agent;
@@ -50,15 +57,23 @@ export class Simulation {
   public run(): Promise<void> {
     return this.exec(this.mainAgent, {
       path: ["Main"],
+      scope: {},
     });
   }
 
-  private lookupChoice(clauses: SelectClause[]): Agent | undefined {
+  private lookupChoice(
+    clauses: SelectClause[],
+    scope: Scope
+  ): Agent | undefined {
     for (const newClause of clauses) {
       for (const pendingChoice of this.pendingChoices) {
         for (const pendingClause of pendingChoice.clauses) {
+          const scopedNewClauseEvt = scope[newClause.evt] ?? newClause.evt;
+          const scopedPendingClauseEvt =
+            pendingChoice.scope[pendingClause.evt] ?? pendingClause.evt;
+
           if (
-            newClause.evt === pendingClause.evt &&
+            scopedNewClauseEvt === scopedPendingClauseEvt &&
             ((newClause.type === "send" && pendingClause.type === "receive") ||
               (newClause.type === "receive" && pendingClause.type === "send"))
           ) {
@@ -72,7 +87,10 @@ export class Simulation {
     return undefined;
   }
 
-  private async exec(agent: Agent, options: { path: string[] }): Promise<void> {
+  private async exec(
+    agent: Agent,
+    options: { path: string[]; scope: Scope }
+  ): Promise<void> {
     switch (agent.type) {
       case "empty":
         return;
@@ -89,18 +107,22 @@ export class Simulation {
           );
         }
 
-        return this.exec(lookup, { path: [...options.path, agent.name] });
+        return this.exec(lookup, {
+          ...options,
+          path: [...options.path, agent.name],
+        });
       }
 
       case "choice": {
         const nextAgent = await new Promise<Agent>((resolveAgent) => {
-          const lookup = this.lookupChoice(agent.clauses);
+          const lookup = this.lookupChoice(agent.clauses, options.scope);
           if (lookup !== undefined) {
             resolveAgent(lookup);
             return;
           }
 
-          const choice = {
+          const choice: PendingChoice = {
+            scope: options.scope,
             resolveAgent: (agent: Agent) => {
               this.pendingChoices = this.pendingChoices.filter(
                 (c) => c !== choice
@@ -116,7 +138,10 @@ export class Simulation {
           this.notifyListeners();
         });
 
-        return this.exec(nextAgent, { ...options, path: [] });
+        return this.exec(nextAgent, {
+          ...options,
+          path: [],
+        });
       }
 
       case "par":
@@ -127,7 +152,10 @@ export class Simulation {
         return;
 
       case "restriction":
-        throw new Error("TODO implement restriction");
+        return this.exec(agent.agent, {
+          ...options,
+          scope: { ...options.scope, [agent.label]: genID() },
+        });
     }
   }
 }
