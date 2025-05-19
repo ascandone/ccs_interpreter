@@ -2,6 +2,7 @@ import type { Agent, Program, SelectClause } from "./ast";
 
 export class ExecutionError extends Error {}
 
+type ParamsScope = Record<string, string>;
 export type Restrictions = Record<string, string>;
 
 export type PendingChoice = {
@@ -15,7 +16,7 @@ function genID() {
   return `SCOPE__${id}`;
 }
 export class Simulation {
-  private readonly agents: Record<string, Agent>;
+  private readonly agents: Record<string, [string[], Agent]>;
   private readonly mainAgent: Agent;
 
   private pendingChoices: PendingChoice[] = [];
@@ -33,7 +34,7 @@ export class Simulation {
     }, 0);
   }
   public onUpdateChoices(
-    callback: (pendingsChoices: PendingChoice[]) => void
+    callback: (pendingsChoices: PendingChoice[]) => void,
   ): VoidFunction {
     this.listeners.push(callback);
     return () => {
@@ -43,7 +44,7 @@ export class Simulation {
 
   constructor(readonly program: Program) {
     this.agents = Object.fromEntries(
-      program.map(({ name, agent }) => [name, agent])
+      program.map(({ name, agent, params }) => [name, [params, agent]]),
     );
 
     const mainAgent = this.agents.Main;
@@ -51,24 +52,30 @@ export class Simulation {
       throw new ExecutionError("Missing Main agent");
     }
 
-    this.mainAgent = mainAgent;
+    if (mainAgent[0].length !== 0) {
+      throw new ExecutionError("Main cannot have any params");
+    }
+
+    this.mainAgent = mainAgent[1];
   }
 
   public run(): Promise<void> {
     return this.exec(this.mainAgent, {
       path: ["Main"],
       restrictions: {},
+      paramsScope: {},
     });
   }
 
   private lookupChoice(
     clauses: SelectClause[],
-    scope: Restrictions
+    restrictions: Restrictions,
   ): Agent | undefined {
     for (const newClause of clauses) {
       for (const pendingChoice of this.pendingChoices) {
         for (const pendingClause of pendingChoice.clauses) {
-          const scopedNewClauseEvt = scope[newClause.evt] ?? newClause.evt;
+          const scopedNewClauseEvt =
+            restrictions[newClause.evt] ?? newClause.evt;
           const scopedPendingClauseEvt =
             pendingChoice.scope[pendingClause.evt] ?? pendingClause.evt;
 
@@ -89,7 +96,11 @@ export class Simulation {
 
   private async exec(
     agent: Agent,
-    options: { path: string[]; restrictions: Restrictions }
+    options: {
+      path: string[];
+      restrictions: Restrictions;
+      paramsScope: ParamsScope;
+    },
   ): Promise<void> {
     switch (agent.type) {
       case "empty":
@@ -101,14 +112,29 @@ export class Simulation {
           throw new ExecutionError(`Invalid agent name: ${agent.name}`);
         }
 
-        if (options.path.includes(agent.name)) {
+        const [params, def] = lookup;
+        if (params.length !== agent.args.length) {
           throw new ExecutionError(
-            `Cannot define mutually recursive agents: '${options.path.join(" -> ")} -> ${agent.name}'. Try wrapping any of them into a + operator.`
+            `Wrong arity for ${agent.name}. Expected ${params.length}, got ${agent.args} instead.`,
           );
         }
 
-        return this.exec(lookup, {
+        if (options.path.includes(agent.name)) {
+          throw new ExecutionError(
+            `Cannot define mutually recursive agents: '${options.path.join(" -> ")} -> ${agent.name}'. Try wrapping any of them into a + operator.`,
+          );
+        }
+
+        const paramsScope: ParamsScope = Object.fromEntries(
+          params.map((param, i) => {
+            const correspondingArg = agent.args[i]!;
+            return [param, correspondingArg] as const;
+          }),
+        );
+
+        return this.exec(def, {
           ...options,
+          paramsScope,
           path: [...options.path, agent.name],
         });
       }
@@ -125,12 +151,15 @@ export class Simulation {
             scope: options.restrictions,
             resolveAgent: (agent: Agent) => {
               this.pendingChoices = this.pendingChoices.filter(
-                (c) => c !== choice
+                (c) => c !== choice,
               );
               this.notifyListeners();
               resolveAgent(agent);
             },
-            clauses: agent.clauses,
+            clauses: agent.clauses.map((clause) => ({
+              ...clause,
+              evt: options.paramsScope[clause.evt] ?? clause.evt,
+            })),
           };
 
           // Else, put in queue and notify listeners

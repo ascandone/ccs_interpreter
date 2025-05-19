@@ -4,7 +4,7 @@ import { unsafeParse } from "./parser";
 
 function parseSimulation(
   src: string,
-  choicesSelector?: Array<{ type: "send" | "receive"; name: string }>
+  choicesSelector?: Array<{ type: "send" | "receive"; name: string }>,
 ) {
   const s = new Simulation(unsafeParse(src));
 
@@ -19,7 +19,7 @@ function parseSimulation(
       for (const choice of choices) {
         const lookup = choice.clauses.find(
           (clause) =>
-            clause.type === selection.type && clause.evt === selection.name
+            clause.type === selection.type && clause.evt === selection.name,
         );
         if (lookup !== undefined) {
           choice.resolveAgent(lookup.after);
@@ -76,7 +76,7 @@ test.todo("allow recursive def using +", { timeout: 2000 }, async () => {
         type: "receive",
         name: "x",
       },
-    ]
+    ],
   );
 
   await s.run();
@@ -91,4 +91,15 @@ test("handshake", { timeout: 10 }, async () => {
   await s.run();
 
   expect(onUpdateChoices).not.toHaveBeenCalled();
+});
+
+test("receive parametric messages ", { timeout: 200 }, async () => {
+  const s = parseSimulation(
+    `
+      Proc(x) = x?.0
+      Main = Proc(evt)
+    `,
+    [{ type: "receive", name: "evt" }],
+  );
+  await s.run();
 });
