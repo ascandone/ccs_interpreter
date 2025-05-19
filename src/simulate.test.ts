@@ -60,16 +60,27 @@ test("throw on recursive def", { timeout: 100 }, async () => {
   await expect(s.run()).rejects.toThrow(ExecutionError);
 });
 
-// test.todo("allow recursive def using +", { timeout: 10 }, async () => {
-//   const s = parseSimulation(`
-//     Main = x?.0 | S
+test.todo("allow recursive def using +", { timeout: 2000 }, async () => {
+  const s = parseSimulation(
+    `
+    Main = x?.0 | S
 
-//     S = y!.0 | z?.Main
-//   `);
+    S = y!.0 | z?.Main
+  `,
+    [
+      {
+        type: "receive",
+        name: "z",
+      },
+      {
+        type: "receive",
+        name: "x",
+      },
+    ]
+  );
 
-//   await s.run();
-//   // await expect(s.run()).not.rejects.toThrow(ExecutionError);
-// });
+  await s.run();
+});
 
 test("handshake", { timeout: 10 }, async () => {
   const s = parseSimulation(`Main = x!.0 | x?.0`);
