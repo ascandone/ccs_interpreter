@@ -29,7 +29,7 @@ class AgentVisitor extends Visitor<ast.Agent> {
       return {
         type: evtType,
         evt: ctx.EVT_ID().getText(),
-        after: new AgentVisitor().visit(ctx.agent()),
+        after: new AgentVisitor().visit(ctx.seqAgent()),
       };
     }) as ast.NonEmptyArr<ast.SelectClause>,
   });
@@ -66,7 +66,7 @@ class LexerErrorListener extends ErrorListener<number> {
     _offendingSymbol: number,
     _line: number,
     _column: number,
-    msg: string
+    msg: string,
     // _e: antlr4.RecognitionException | undefined
   ): void {
     this.errors.push(new AntlrParsingError(msg));
@@ -81,7 +81,7 @@ class ParsingErrorListener extends ErrorListener<antlr4.Token> {
     _offendingSymbol: antlr4.Token,
     _line: number,
     _column: number,
-    msg: string
+    msg: string,
   ): void {
     this.errors.push(new AntlrParsingError(msg));
   }

@@ -9,7 +9,7 @@ test("nil program", () => {
   expect(
     unsafeParse(`
       Main = 0
-    `)
+    `),
   ).toMatchInlineSnapshot(`
     [
       {
@@ -27,7 +27,7 @@ test("id", () => {
   expect(
     unsafeParse(`
       X = Y
-    `)
+    `),
   ).toMatchInlineSnapshot(`
     [
       {
@@ -47,7 +47,7 @@ test("choice", () => {
   expect(
     unsafeParse(`
       Main = Left|Right
-    `)
+    `),
   ).toMatchInlineSnapshot(`
     [
       {
@@ -75,7 +75,7 @@ test("restriction", () => {
   expect(
     unsafeParse(String.raw`
       Main = Left\x
-    `)
+    `),
   ).toMatchInlineSnapshot(`
     [
       {
@@ -99,7 +99,7 @@ test("choice (unary)", () => {
   expect(
     unsafeParse(String.raw`
       Z = x?.P
-    `)
+    `),
   ).toMatchInlineSnapshot(`
     [
       {
@@ -131,7 +131,7 @@ test("choice (multiple)", () => {
         x?.P +
         y!.Q +
         z?.R
-    `)
+    `),
   ).toMatchInlineSnapshot(`
     [
       {
@@ -178,7 +178,7 @@ test("choice/par prec (explicit parens)", () => {
   expect(
     unsafeParse(String.raw`
       Main = (x!.0) | (x?.0)
-    `)
+    `),
   ).toMatchInlineSnapshot(`
     [
       {
@@ -220,7 +220,7 @@ test("choice/par prec", () => {
   expect(
     unsafeParse(String.raw`
       Main = x!.0 | x?.0
-    `)
+    `),
   ).toMatchInlineSnapshot(`
     [
       {
@@ -258,11 +258,23 @@ test("choice/par prec", () => {
   `);
 });
 
+test("choice/par prec (nested)", () => {
+  expect(
+    unsafeParse(String.raw`
+      Main = a!.0 | b!.0 | c!.0
+    `),
+  ).toEqual(
+    unsafeParse(String.raw`
+      Main = (a!.0) | ((b!.0) | (c!.0))
+    `),
+  );
+});
+
 test("restriction", () => {
   expect(
     unsafeParse(String.raw`
       Main = 0\a
-    `)
+    `),
   ).toMatchInlineSnapshot(`
     [
       {
@@ -284,7 +296,7 @@ test("restriction of choice", () => {
   expect(
     unsafeParse(String.raw`
       Main = (x?.0)\a
-    `)
+    `),
   ).toMatchInlineSnapshot(`
     [
       {
@@ -317,7 +329,7 @@ test("def params", () => {
       NoArgs() = 0
       SingleArg(a, b) = 0
       TwoArgs(a, b) = 0
-    `)
+    `),
   ).toMatchInlineSnapshot(`
     [
       {
@@ -357,7 +369,7 @@ test("ident params", () => {
       Main = NoArgs()
       Main = SingleArg(x)
       Main = ManyArgs(a, b, c)
-    `)
+    `),
   ).toMatchInlineSnapshot(`
     [
       {

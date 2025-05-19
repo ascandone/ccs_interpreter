@@ -316,7 +316,7 @@ export default class CCSParser extends Parser {
 			this.state = 55;
 			this.match(CCSParser.T__8);
 			this.state = 56;
-			this.agent();
+			this.seqAgent(0);
 			}
 		}
 		catch (re) {
@@ -500,7 +500,7 @@ export default class CCSParser extends Parser {
 	1,0,0,0,39,31,1,0,0,0,40,46,1,0,0,0,41,42,10,1,0,0,42,43,5,6,0,0,43,45,
 	5,15,0,0,44,41,1,0,0,0,45,48,1,0,0,0,46,44,1,0,0,0,46,47,1,0,0,0,47,3,1,
 	0,0,0,48,46,1,0,0,0,49,52,5,7,0,0,50,52,5,8,0,0,51,49,1,0,0,0,51,50,1,0,
-	0,0,52,5,1,0,0,0,53,54,5,15,0,0,54,55,3,4,2,0,55,56,5,9,0,0,56,57,3,0,0,
+	0,0,52,5,1,0,0,0,53,54,5,15,0,0,54,55,3,4,2,0,55,56,5,9,0,0,56,57,3,2,1,
 	0,57,7,1,0,0,0,58,67,5,3,0,0,59,64,5,15,0,0,60,61,5,10,0,0,61,63,5,15,0,
 	0,62,60,1,0,0,0,63,66,1,0,0,0,64,62,1,0,0,0,64,65,1,0,0,0,65,68,1,0,0,0,
 	66,64,1,0,0,0,67,59,1,0,0,0,67,68,1,0,0,0,68,69,1,0,0,0,69,70,5,4,0,0,70,
@@ -824,8 +824,8 @@ export class ChoiceClauseContext extends ParserRuleContext {
 	public evtType(): EvtTypeContext {
 		return this.getTypedRuleContext(EvtTypeContext, 0) as EvtTypeContext;
 	}
-	public agent(): AgentContext {
-		return this.getTypedRuleContext(AgentContext, 0) as AgentContext;
+	public seqAgent(): SeqAgentContext {
+		return this.getTypedRuleContext(SeqAgentContext, 0) as SeqAgentContext;
 	}
     public get ruleIndex(): number {
     	return CCSParser.RULE_choiceClause;

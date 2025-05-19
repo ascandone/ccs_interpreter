@@ -22,7 +22,7 @@ seqAgent
 	;
 
 evtType: '?' # receive | '!' # send;
-choiceClause: EVT_ID evtType '.' agent;
+choiceClause: EVT_ID evtType '.' seqAgent;
 
 defParams: '(' (EVT_ID (',' EVT_ID)*)? ')';
 
