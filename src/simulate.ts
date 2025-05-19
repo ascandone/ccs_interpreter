@@ -143,8 +143,14 @@ export class Simulation {
       }
 
       case "choice": {
+        const clauses = agent.clauses.map((clause) => ({
+          ...clause,
+          evt: options.paramsScope[clause.evt] ?? clause.evt,
+        }));
+
         const nextAgent = await new Promise<Agent>((resolveAgent) => {
-          const lookup = this.lookupChoice(agent.clauses, options.restrictions);
+          const lookup = this.lookupChoice(clauses, options.restrictions);
+
           if (lookup !== undefined) {
             resolveAgent(lookup);
             return;
@@ -152,6 +158,7 @@ export class Simulation {
 
           const choice: PendingChoice = {
             scope: options.restrictions,
+            clauses,
             resolveAgent: (agent: Agent) => {
               this.pendingChoices = this.pendingChoices.filter(
                 (c) => c !== choice,
@@ -159,10 +166,6 @@ export class Simulation {
               this.notifyListeners();
               resolveAgent(agent);
             },
-            clauses: agent.clauses.map((clause) => ({
-              ...clause,
-              evt: options.paramsScope[clause.evt] ?? clause.evt,
-            })),
           };
 
           // Else, put in queue and notify listeners
