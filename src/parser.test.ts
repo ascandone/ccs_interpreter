@@ -17,6 +17,7 @@ test("nil program", () => {
           "type": "empty",
         },
         "name": "Main",
+        "params": [],
       },
     ]
   `);
@@ -35,6 +36,7 @@ test("id", () => {
           "type": "ident",
         },
         "name": "X",
+        "params": [],
       },
     ]
   `);
@@ -60,6 +62,7 @@ test("choice", () => {
           "type": "par",
         },
         "name": "Main",
+        "params": [],
       },
     ]
   `);
@@ -82,6 +85,7 @@ test("restriction", () => {
           "type": "restriction",
         },
         "name": "Main",
+        "params": [],
       },
     ]
   `);
@@ -109,6 +113,7 @@ test("choice (unary)", () => {
           "type": "choice",
         },
         "name": "Z",
+        "params": [],
       },
     ]
   `);
@@ -155,6 +160,7 @@ test("choice (multiple)", () => {
           "type": "choice",
         },
         "name": "Z",
+        "params": [],
       },
     ]
   `);
@@ -196,6 +202,7 @@ test("choice/par prec (explicit parens)", () => {
           "type": "par",
         },
         "name": "Main",
+        "params": [],
       },
     ]
   `);
@@ -237,6 +244,7 @@ test("choice/par prec", () => {
           "type": "par",
         },
         "name": "Main",
+        "params": [],
       },
     ]
   `);
@@ -258,6 +266,7 @@ test("restriction", () => {
           "type": "restriction",
         },
         "name": "Main",
+        "params": [],
       },
     ]
   `);
@@ -288,6 +297,47 @@ test("restriction of choice", () => {
           "type": "restriction",
         },
         "name": "Main",
+        "params": [],
+      },
+    ]
+  `);
+});
+
+test("def params", () => {
+  expect(
+    unsafeParse(String.raw`
+      NoArgs() = 0
+      SingleArg(a, b) = 0
+      TwoArgs(a, b) = 0
+    `)
+  ).toMatchInlineSnapshot(`
+    [
+      {
+        "agent": {
+          "type": "empty",
+        },
+        "name": "NoArgs",
+        "params": [],
+      },
+      {
+        "agent": {
+          "type": "empty",
+        },
+        "name": "SingleArg",
+        "params": [
+          "a",
+          "b",
+        ],
+      },
+      {
+        "agent": {
+          "type": "empty",
+        },
+        "name": "TwoArgs",
+        "params": [
+          "a",
+          "b",
+        ],
       },
     ]
   `);

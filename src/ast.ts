@@ -15,7 +15,7 @@ export type SelectClause = {
 
 export type Definition = {
   name: string;
-  // TODO params
+  params: string[];
   agent: Agent;
 };
 

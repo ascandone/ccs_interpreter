@@ -8,11 +8,12 @@ T__6=7
 T__7=8
 T__8=9
 T__9=10
-LINE_COMMENT=11
-NEWLINE=12
-WS=13
-EVT_ID=14
-AGENT_ID=15
+T__10=11
+LINE_COMMENT=12
+NEWLINE=13
+WS=14
+EVT_ID=15
+AGENT_ID=16
 '|'=1
 '0'=2
 '('=3
@@ -22,4 +23,5 @@ AGENT_ID=15
 '?'=7
 '!'=8
 '.'=9
-'='=10
+','=10
+'='=11

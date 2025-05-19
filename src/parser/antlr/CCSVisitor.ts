@@ -13,6 +13,7 @@ import { ChoiceContext } from "./CCSParser.js";
 import { ReceiveContext } from "./CCSParser.js";
 import { SendContext } from "./CCSParser.js";
 import { ChoiceClauseContext } from "./CCSParser.js";
+import { DefParamsContext } from "./CCSParser.js";
 import { DefContext } from "./CCSParser.js";
 import { ProgramContext } from "./CCSParser.js";
 
@@ -94,6 +95,12 @@ export default class CCSVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitChoiceClause?: (ctx: ChoiceClauseContext) => Result;
+	/**
+	 * Visit a parse tree produced by `CCSParser.defParams`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitDefParams?: (ctx: DefParamsContext) => Result;
 	/**
 	 * Visit a parse tree produced by `CCSParser.def`.
 	 * @param ctx the parse tree

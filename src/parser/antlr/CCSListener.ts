@@ -13,6 +13,7 @@ import { ChoiceContext } from "./CCSParser.js";
 import { ReceiveContext } from "./CCSParser.js";
 import { SendContext } from "./CCSParser.js";
 import { ChoiceClauseContext } from "./CCSParser.js";
+import { DefParamsContext } from "./CCSParser.js";
 import { DefContext } from "./CCSParser.js";
 import { ProgramContext } from "./CCSParser.js";
 
@@ -140,6 +141,16 @@ export default class CCSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitChoiceClause?: (ctx: ChoiceClauseContext) => void;
+	/**
+	 * Enter a parse tree produced by `CCSParser.defParams`.
+	 * @param ctx the parse tree
+	 */
+	enterDefParams?: (ctx: DefParamsContext) => void;
+	/**
+	 * Exit a parse tree produced by `CCSParser.defParams`.
+	 * @param ctx the parse tree
+	 */
+	exitDefParams?: (ctx: DefParamsContext) => void;
 	/**
 	 * Enter a parse tree produced by `CCSParser.def`.
 	 * @param ctx the parse tree

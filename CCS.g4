@@ -24,6 +24,8 @@ seqAgent
 evtType: '?' # receive | '!' # send;
 choiceClause: EVT_ID evtType '.' agent;
 
-def: AGENT_ID '=' agent;
+defParams: '(' (EVT_ID (',' EVT_ID)*)? ')';
+
+def: AGENT_ID defParams? '=' agent;
 
 program: def* EOF;

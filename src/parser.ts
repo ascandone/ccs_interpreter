@@ -99,12 +99,18 @@ export function parse(input: string): ParseResult {
 
   const declCtx = parser.program();
 
-  const declarations = declCtx.def_list().map(
-    (d): ast.Definition => ({
+  const declarations = declCtx.def_list().map((d): ast.Definition => {
+    return {
       name: d.AGENT_ID().getText(),
+      params:
+        d
+          .defParams()
+          ?.EVT_ID_list()
+          ?.map((t) => t.getText()) ?? [],
+
       agent: new AgentVisitor().visit(d.agent()),
-    })
-  );
+    };
+  });
 
   return {
     parsed: declarations,
