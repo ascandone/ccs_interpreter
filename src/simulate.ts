@@ -48,7 +48,9 @@ export class Simulation {
   }
 
   public run(): Promise<void> {
-    return this.exec(this.mainAgent);
+    return this.exec(this.mainAgent, {
+      path: ["Main"],
+    });
   }
 
   private lookupChoice(clauses: SelectClause[]): Agent | undefined {
@@ -56,10 +58,9 @@ export class Simulation {
       for (const pendingChoice of this.pendingChoices) {
         for (const pendingClause of pendingChoice.clauses) {
           if (
-            (newClause.evt === pendingClause.evt &&
-              newClause.type === "send" &&
-              pendingClause.type === "receive") ||
-            (newClause.type === "receive" && pendingClause.type === "send")
+            newClause.evt === pendingClause.evt &&
+            ((newClause.type === "send" && pendingClause.type === "receive") ||
+              (newClause.type === "receive" && pendingClause.type === "send"))
           ) {
             pendingChoice.resolveAgent(pendingClause.after);
             return newClause.after;
@@ -71,7 +72,7 @@ export class Simulation {
     return undefined;
   }
 
-  private async exec(agent: Agent): Promise<void> {
+  private async exec(agent: Agent, options: { path: string[] }): Promise<void> {
     switch (agent.type) {
       case "empty":
         return;
@@ -82,7 +83,13 @@ export class Simulation {
           throw new ExecutionError(`Invalid agent name: ${agent.name}`);
         }
 
-        return this.exec(lookup);
+        if (options.path.includes(agent.name)) {
+          throw new ExecutionError(
+            `Cannot define mutually recursive agents: '${options.path.join(" -> ")} -> ${agent.name}'. Try wrapping any of them into a + operator.`
+          );
+        }
+
+        return this.exec(lookup, { path: [...options.path, agent.name] });
       }
 
       case "choice": {
@@ -109,11 +116,16 @@ export class Simulation {
           this.notifyListeners();
         });
 
-        return this.exec(nextAgent);
+        console.log("CHOICE", nextAgent.type);
+
+        return this.exec(nextAgent, { ...options, path: [] });
       }
 
       case "par":
-        await Promise.all([this.exec(agent.left), this.exec(agent.right)]);
+        await Promise.all([
+          this.exec(agent.left, options),
+          this.exec(agent.right, options),
+        ]);
         return;
 
       case "restriction":

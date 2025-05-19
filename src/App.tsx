@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FC } from "react";
 import { ParsingError, unsafeParse } from "./parser";
-import { Simulation, type PendingChoice } from "./simulate";
+import { ExecutionError, Simulation, type PendingChoice } from "./simulate";
 
 const EXAMPLE_INPUT = "Main = x?.0";
 
@@ -32,7 +32,10 @@ const Simulator: FC<{ source: string }> = ({ source }) => {
       setPendingChoices([]);
       alert("done!");
     } catch (error) {
-      if (!(error instanceof ParsingError)) {
+      if (
+        !(error instanceof ParsingError) &&
+        !(error instanceof ExecutionError)
+      ) {
         throw error;
       }
 

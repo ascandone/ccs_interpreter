@@ -1,5 +1,5 @@
 import { test, expect, vi } from "vitest";
-import { Simulation } from "./simulate";
+import { ExecutionError, Simulation } from "./simulate";
 import { unsafeParse } from "./parser";
 
 function parseSimulation(
@@ -49,6 +49,27 @@ test("receive messages", { timeout: 10 }, async () => {
   const s = parseSimulation(`Main = x?.0`, [{ type: "receive", name: "x" }]);
   await s.run();
 });
+
+test("throw on recursive def", { timeout: 100 }, async () => {
+  const s = parseSimulation(`
+    Main = x?.0 | S
+
+    S = y!.0 | Main
+  `);
+
+  await expect(s.run()).rejects.toThrow(ExecutionError);
+});
+
+// test.todo("allow recursive def using +", { timeout: 10 }, async () => {
+//   const s = parseSimulation(`
+//     Main = x?.0 | S
+
+//     S = y!.0 | z?.Main
+//   `);
+
+//   await s.run();
+//   // await expect(s.run()).not.rejects.toThrow(ExecutionError);
+// });
 
 test("handshake", { timeout: 10 }, async () => {
   const s = parseSimulation(`Main = x!.0 | x?.0`);
