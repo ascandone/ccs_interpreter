@@ -116,8 +116,6 @@ export class Simulation {
           this.notifyListeners();
         });
 
-        console.log("CHOICE", nextAgent.type);
-
         return this.exec(nextAgent, { ...options, path: [] });
       }
 

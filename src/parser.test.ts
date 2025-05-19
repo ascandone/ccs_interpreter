@@ -241,3 +241,54 @@ test("choice/par prec", () => {
     ]
   `);
 });
+
+test("restriction", () => {
+  expect(
+    unsafeParse(String.raw`
+      Main = 0\a
+    `)
+  ).toMatchInlineSnapshot(`
+    [
+      {
+        "agent": {
+          "agent": {
+            "type": "empty",
+          },
+          "label": "a",
+          "type": "restriction",
+        },
+        "name": "Main",
+      },
+    ]
+  `);
+});
+
+test("restriction of choice", () => {
+  expect(
+    unsafeParse(String.raw`
+      Main = (x?.0)\a
+    `)
+  ).toMatchInlineSnapshot(`
+    [
+      {
+        "agent": {
+          "agent": {
+            "clauses": [
+              {
+                "after": {
+                  "type": "empty",
+                },
+                "evt": "x",
+                "type": "receive",
+              },
+            ],
+            "type": "choice",
+          },
+          "label": "a",
+          "type": "restriction",
+        },
+        "name": "Main",
+      },
+    ]
+  `);
+});
