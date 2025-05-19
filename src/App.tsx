@@ -2,7 +2,27 @@ import { useEffect, useRef, useState, type FC } from "react";
 import { ParsingError, unsafeParse } from "./parser";
 import { ExecutionError, Simulation, type PendingChoice } from "./simulate";
 
-const EXAMPLE_INPUT = "Main = x?.0";
+const EXAMPLE_INPUT = String.raw`Main = (
+  // we have two semaphores x and y
+  S(sx_up, sx_down) |
+  S(sy_up, sy_down) |
+
+  // and a bunch of concurrent procs
+  sx_up!.proc1?.sx_down!.0 |
+  sy_up!.proc2?.sy_down!.0 |
+  sx_up!.proc3?.sx_down!.0 |
+  sx_up!.proc4?.sx_down!.0
+)\sx_up\sx_down\sy_up\sy_down
+
+
+// a binary semaphore
+// run it with "S(a, b)"
+// and emit "a!" to turn it up, "b!" to turn it down
+S(up, down) = up?.S_1(up, down)
+S_1(up, down) = up?.S_2(up, down) + down?.S(up, down)
+S_2(up, down) = down?.S_1(up, down)
+
+`;
 
 const btnStyle =
   "text-white w-32 shadow cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2";
