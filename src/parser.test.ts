@@ -32,8 +32,8 @@ test("id", () => {
     [
       {
         "agent": {
+          "args": [],
           "name": "Y",
-          "params": [],
           "type": "ident",
         },
         "name": "X",
@@ -53,13 +53,13 @@ test("choice", () => {
       {
         "agent": {
           "left": {
+            "args": [],
             "name": "Left",
-            "params": [],
             "type": "ident",
           },
           "right": {
+            "args": [],
             "name": "Right",
-            "params": [],
             "type": "ident",
           },
           "type": "par",
@@ -81,8 +81,8 @@ test("restriction", () => {
       {
         "agent": {
           "agent": {
+            "args": [],
             "name": "Left",
-            "params": [],
             "type": "ident",
           },
           "label": "x",
@@ -107,8 +107,8 @@ test("choice (unary)", () => {
           "clauses": [
             {
               "after": {
+                "args": [],
                 "name": "P",
-                "params": [],
                 "type": "ident",
               },
               "evt": "x",
@@ -139,8 +139,8 @@ test("choice (multiple)", () => {
           "clauses": [
             {
               "after": {
+                "args": [],
                 "name": "P",
-                "params": [],
                 "type": "ident",
               },
               "evt": "x",
@@ -148,8 +148,8 @@ test("choice (multiple)", () => {
             },
             {
               "after": {
+                "args": [],
                 "name": "Q",
-                "params": [],
                 "type": "ident",
               },
               "evt": "y",
@@ -157,8 +157,8 @@ test("choice (multiple)", () => {
             },
             {
               "after": {
+                "args": [],
                 "name": "R",
-                "params": [],
                 "type": "ident",
               },
               "evt": "z",
@@ -362,8 +362,8 @@ test("ident params", () => {
     [
       {
         "agent": {
+          "args": [],
           "name": "NoArgs",
-          "params": [],
           "type": "ident",
         },
         "name": "Main",
@@ -371,10 +371,10 @@ test("ident params", () => {
       },
       {
         "agent": {
-          "name": "SingleArg",
-          "params": [
+          "args": [
             "x",
           ],
+          "name": "SingleArg",
           "type": "ident",
         },
         "name": "Main",
@@ -382,12 +382,12 @@ test("ident params", () => {
       },
       {
         "agent": {
-          "name": "ManyArgs",
-          "params": [
+          "args": [
             "a",
             "b",
             "c",
           ],
+          "name": "ManyArgs",
           "type": "ident",
         },
         "name": "Main",
