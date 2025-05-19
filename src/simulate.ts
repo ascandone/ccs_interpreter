@@ -2,11 +2,11 @@ import type { Agent, Program, SelectClause } from "./ast";
 
 export class ExecutionError extends Error {}
 
-export type Scope = Record<string, string>;
+export type Restrictions = Record<string, string>;
 
 export type PendingChoice = {
   resolveAgent(agent: Agent): void;
-  scope: Scope;
+  scope: Restrictions;
   clauses: SelectClause[];
 };
 
@@ -57,13 +57,13 @@ export class Simulation {
   public run(): Promise<void> {
     return this.exec(this.mainAgent, {
       path: ["Main"],
-      scope: {},
+      restrictions: {},
     });
   }
 
   private lookupChoice(
     clauses: SelectClause[],
-    scope: Scope
+    scope: Restrictions
   ): Agent | undefined {
     for (const newClause of clauses) {
       for (const pendingChoice of this.pendingChoices) {
@@ -89,7 +89,7 @@ export class Simulation {
 
   private async exec(
     agent: Agent,
-    options: { path: string[]; scope: Scope }
+    options: { path: string[]; restrictions: Restrictions }
   ): Promise<void> {
     switch (agent.type) {
       case "empty":
@@ -115,14 +115,14 @@ export class Simulation {
 
       case "choice": {
         const nextAgent = await new Promise<Agent>((resolveAgent) => {
-          const lookup = this.lookupChoice(agent.clauses, options.scope);
+          const lookup = this.lookupChoice(agent.clauses, options.restrictions);
           if (lookup !== undefined) {
             resolveAgent(lookup);
             return;
           }
 
           const choice: PendingChoice = {
-            scope: options.scope,
+            scope: options.restrictions,
             resolveAgent: (agent: Agent) => {
               this.pendingChoices = this.pendingChoices.filter(
                 (c) => c !== choice
@@ -154,7 +154,7 @@ export class Simulation {
       case "restriction":
         return this.exec(agent.agent, {
           ...options,
-          scope: { ...options.scope, [agent.label]: genID() },
+          restrictions: { ...options.restrictions, [agent.label]: genID() },
         });
     }
   }
