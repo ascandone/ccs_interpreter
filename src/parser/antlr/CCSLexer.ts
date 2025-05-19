@@ -1,3 +1,5 @@
+// @ts-nocheck
+// @ts-nocheck
 // Generated from CCS.g4 by ANTLR 4.13.2
 // noinspection ES6UnusedImports,JSUnusedGlobalSymbols,JSUnusedLocalSymbols
 import {
@@ -34,7 +36,7 @@ export default class CCSLexer extends Lexer {
 	public static readonly literalNames: (string | null)[] = [ null, "'|'", 
                                                             "'0'", "'('", 
                                                             "')'", "'+'", 
-                                                            "'\\'", "'?'", 
+                                                            "'\'", "'?'", 
                                                             "'!'", "'.'", 
                                                             "','", "'='" ];
 	public static readonly symbolicNames: (string | null)[] = [ null, null, 

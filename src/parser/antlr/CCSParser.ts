@@ -1,3 +1,5 @@
+// @ts-nocheck
+// @ts-nocheck
 // Generated from CCS.g4 by ANTLR 4.13.2
 // noinspection ES6UnusedImports,JSUnusedGlobalSymbols,JSUnusedLocalSymbols
 
@@ -46,7 +48,7 @@ export default class CCSParser extends Parser {
 	public static readonly literalNames: (string | null)[] = [ null, "'|'", 
                                                             "'0'", "'('", 
                                                             "')'", "'+'", 
-                                                            "'\\'", "'?'", 
+                                                            "'\'", "'?'", 
                                                             "'!'", "'.'", 
                                                             "','", "'='" ];
 	public static readonly symbolicNames: (string | null)[] = [ null, null, 
