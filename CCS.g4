@@ -1,5 +1,7 @@
 grammar CCS;
 
+LINE_COMMENT: '//' ~[\r\n]* -> skip;
+
 NEWLINE: '\r'? '\n' -> skip;
 WS: [ \t\r\n]+ -> skip;
 
