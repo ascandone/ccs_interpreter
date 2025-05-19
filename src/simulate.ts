@@ -128,7 +128,10 @@ export class Simulation {
         const paramsScope: ParamsScope = Object.fromEntries(
           params.map((param, i) => {
             const correspondingArg = agent.args[i]!;
-            return [param, correspondingArg] as const;
+            return [
+              param,
+              options.paramsScope[correspondingArg] ?? correspondingArg,
+            ] as const;
           }),
         );
 
