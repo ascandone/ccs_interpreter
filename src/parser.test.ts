@@ -33,6 +33,7 @@ test("id", () => {
       {
         "agent": {
           "name": "Y",
+          "params": [],
           "type": "ident",
         },
         "name": "X",
@@ -53,10 +54,12 @@ test("choice", () => {
         "agent": {
           "left": {
             "name": "Left",
+            "params": [],
             "type": "ident",
           },
           "right": {
             "name": "Right",
+            "params": [],
             "type": "ident",
           },
           "type": "par",
@@ -79,6 +82,7 @@ test("restriction", () => {
         "agent": {
           "agent": {
             "name": "Left",
+            "params": [],
             "type": "ident",
           },
           "label": "x",
@@ -104,6 +108,7 @@ test("choice (unary)", () => {
             {
               "after": {
                 "name": "P",
+                "params": [],
                 "type": "ident",
               },
               "evt": "x",
@@ -135,6 +140,7 @@ test("choice (multiple)", () => {
             {
               "after": {
                 "name": "P",
+                "params": [],
                 "type": "ident",
               },
               "evt": "x",
@@ -143,6 +149,7 @@ test("choice (multiple)", () => {
             {
               "after": {
                 "name": "Q",
+                "params": [],
                 "type": "ident",
               },
               "evt": "y",
@@ -151,6 +158,7 @@ test("choice (multiple)", () => {
             {
               "after": {
                 "name": "R",
+                "params": [],
                 "type": "ident",
               },
               "evt": "z",
@@ -338,6 +346,52 @@ test("def params", () => {
           "a",
           "b",
         ],
+      },
+    ]
+  `);
+});
+
+test("ident params", () => {
+  expect(
+    unsafeParse(String.raw`
+      Main = NoArgs()
+      Main = SingleArg(x)
+      Main = ManyArgs(a, b, c)
+    `)
+  ).toMatchInlineSnapshot(`
+    [
+      {
+        "agent": {
+          "name": "NoArgs",
+          "params": [],
+          "type": "ident",
+        },
+        "name": "Main",
+        "params": [],
+      },
+      {
+        "agent": {
+          "name": "SingleArg",
+          "params": [
+            "x",
+          ],
+          "type": "ident",
+        },
+        "name": "Main",
+        "params": [],
+      },
+      {
+        "agent": {
+          "name": "ManyArgs",
+          "params": [
+            "a",
+            "b",
+            "c",
+          ],
+          "type": "ident",
+        },
+        "name": "Main",
+        "params": [],
       },
     ]
   `);

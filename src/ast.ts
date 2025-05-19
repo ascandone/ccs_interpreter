@@ -5,7 +5,7 @@ export type Agent =
   | { type: "choice"; clauses: NonEmptyArr<SelectClause> }
   | { type: "par"; left: Agent; right: Agent }
   | { type: "restriction"; agent: Agent; label: string }
-  | { type: "ident"; name: string }; // TODO params
+  | { type: "ident"; name: string; params: string[] };
 
 export type SelectClause = {
   type: "receive" | "send";

@@ -40,6 +40,11 @@ class AgentVisitor extends Visitor<ast.Agent> {
   });
   visitAgentId = (ctx: parser.AgentIdContext): ast.Agent => ({
     type: "ident",
+    params:
+      ctx
+        .defParams()
+        ?.EVT_ID_list()
+        ?.map((t) => t.getText()) ?? [],
     name: ctx.AGENT_ID().getText(),
   });
 }

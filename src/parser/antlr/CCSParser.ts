@@ -140,7 +140,7 @@ export default class CCSParser extends Parser {
 			let _alt: number;
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 36;
+			this.state = 39;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case 2:
@@ -160,6 +160,16 @@ export default class CCSParser extends Parser {
 				_prevctx = localctx;
 				this.state = 23;
 				this.match(CCSParser.AGENT_ID);
+				this.state = 25;
+				this._errHandler.sync(this);
+				switch ( this._interp.adaptivePredict(this._input, 1, this._ctx) ) {
+				case 1:
+					{
+					this.state = 24;
+					this.defParams();
+					}
+					break;
+				}
 				}
 				break;
 			case 3:
@@ -167,11 +177,11 @@ export default class CCSParser extends Parser {
 				localctx = new ParenthesizedContext(this, localctx);
 				this._ctx = localctx;
 				_prevctx = localctx;
-				this.state = 24;
+				this.state = 27;
 				this.match(CCSParser.T__2);
-				this.state = 25;
+				this.state = 28;
 				this.agent();
-				this.state = 26;
+				this.state = 29;
 				this.match(CCSParser.T__3);
 				}
 				break;
@@ -180,25 +190,25 @@ export default class CCSParser extends Parser {
 				localctx = new ChoiceContext(this, localctx);
 				this._ctx = localctx;
 				_prevctx = localctx;
-				this.state = 28;
+				this.state = 31;
 				this.choiceClause();
-				this.state = 33;
+				this.state = 36;
 				this._errHandler.sync(this);
-				_alt = this._interp.adaptivePredict(this._input, 1, this._ctx);
+				_alt = this._interp.adaptivePredict(this._input, 2, this._ctx);
 				while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 					if (_alt === 1) {
 						{
 						{
-						this.state = 29;
+						this.state = 32;
 						this.match(CCSParser.T__4);
-						this.state = 30;
+						this.state = 33;
 						this.choiceClause();
 						}
 						}
 					}
-					this.state = 35;
+					this.state = 38;
 					this._errHandler.sync(this);
-					_alt = this._interp.adaptivePredict(this._input, 1, this._ctx);
+					_alt = this._interp.adaptivePredict(this._input, 2, this._ctx);
 				}
 				}
 				break;
@@ -206,9 +216,9 @@ export default class CCSParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			this._ctx.stop = this._input.LT(-1);
-			this.state = 43;
+			this.state = 46;
 			this._errHandler.sync(this);
-			_alt = this._interp.adaptivePredict(this._input, 3, this._ctx);
+			_alt = this._interp.adaptivePredict(this._input, 4, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					if (this._parseListeners != null) {
@@ -219,20 +229,20 @@ export default class CCSParser extends Parser {
 					{
 					localctx = new RestrictionContext(this, new SeqAgentContext(this, _parentctx, _parentState));
 					this.pushNewRecursionContext(localctx, _startState, CCSParser.RULE_seqAgent);
-					this.state = 38;
+					this.state = 41;
 					if (!(this.precpred(this._ctx, 1))) {
 						throw this.createFailedPredicateException("this.precpred(this._ctx, 1)");
 					}
-					this.state = 39;
+					this.state = 42;
 					this.match(CCSParser.T__5);
-					this.state = 40;
+					this.state = 43;
 					this.match(CCSParser.EVT_ID);
 					}
 					}
 				}
-				this.state = 45;
+				this.state = 48;
 				this._errHandler.sync(this);
-				_alt = this._interp.adaptivePredict(this._input, 3, this._ctx);
+				_alt = this._interp.adaptivePredict(this._input, 4, this._ctx);
 			}
 			}
 		}
@@ -255,14 +265,14 @@ export default class CCSParser extends Parser {
 		let localctx: EvtTypeContext = new EvtTypeContext(this, this._ctx, this.state);
 		this.enterRule(localctx, 4, CCSParser.RULE_evtType);
 		try {
-			this.state = 48;
+			this.state = 51;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case 7:
 				localctx = new ReceiveContext(this, localctx);
 				this.enterOuterAlt(localctx, 1);
 				{
-				this.state = 46;
+				this.state = 49;
 				this.match(CCSParser.T__6);
 				}
 				break;
@@ -270,7 +280,7 @@ export default class CCSParser extends Parser {
 				localctx = new SendContext(this, localctx);
 				this.enterOuterAlt(localctx, 2);
 				{
-				this.state = 47;
+				this.state = 50;
 				this.match(CCSParser.T__7);
 				}
 				break;
@@ -299,13 +309,13 @@ export default class CCSParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 50;
-			this.match(CCSParser.EVT_ID);
-			this.state = 51;
-			this.evtType();
-			this.state = 52;
-			this.match(CCSParser.T__8);
 			this.state = 53;
+			this.match(CCSParser.EVT_ID);
+			this.state = 54;
+			this.evtType();
+			this.state = 55;
+			this.match(CCSParser.T__8);
+			this.state = 56;
 			this.agent();
 			}
 		}
@@ -331,35 +341,35 @@ export default class CCSParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 55;
+			this.state = 58;
 			this.match(CCSParser.T__2);
-			this.state = 64;
+			this.state = 67;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la===15) {
 				{
-				this.state = 56;
+				this.state = 59;
 				this.match(CCSParser.EVT_ID);
-				this.state = 61;
+				this.state = 64;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 				while (_la===10) {
 					{
 					{
-					this.state = 57;
+					this.state = 60;
 					this.match(CCSParser.T__9);
-					this.state = 58;
+					this.state = 61;
 					this.match(CCSParser.EVT_ID);
 					}
 					}
-					this.state = 63;
+					this.state = 66;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 				}
 				}
 			}
 
-			this.state = 66;
+			this.state = 69;
 			this.match(CCSParser.T__3);
 			}
 		}
@@ -385,21 +395,21 @@ export default class CCSParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 68;
+			this.state = 71;
 			this.match(CCSParser.AGENT_ID);
-			this.state = 70;
+			this.state = 73;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la===3) {
 				{
-				this.state = 69;
+				this.state = 72;
 				this.defParams();
 				}
 			}
 
-			this.state = 72;
+			this.state = 75;
 			this.match(CCSParser.T__10);
-			this.state = 73;
+			this.state = 76;
 			this.agent();
 			}
 		}
@@ -425,21 +435,21 @@ export default class CCSParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 78;
+			this.state = 81;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la===16) {
 				{
 				{
-				this.state = 75;
+				this.state = 78;
 				this.def();
 				}
 				}
-				this.state = 80;
+				this.state = 83;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 81;
+			this.state = 84;
 			this.match(CCSParser.EOF);
 			}
 		}
@@ -473,30 +483,31 @@ export default class CCSParser extends Parser {
 		return true;
 	}
 
-	public static readonly _serializedATN: number[] = [4,1,16,84,2,0,7,0,2,
+	public static readonly _serializedATN: number[] = [4,1,16,87,2,0,7,0,2,
 	1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,1,0,1,0,1,0,1,0,1,0,3,0,20,
-	8,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,32,8,1,10,1,12,1,35,9,1,
-	3,1,37,8,1,1,1,1,1,1,1,5,1,42,8,1,10,1,12,1,45,9,1,1,2,1,2,3,2,49,8,2,1,
-	3,1,3,1,3,1,3,1,3,1,4,1,4,1,4,1,4,5,4,60,8,4,10,4,12,4,63,9,4,3,4,65,8,
-	4,1,4,1,4,1,5,1,5,3,5,71,8,5,1,5,1,5,1,5,1,6,5,6,77,8,6,10,6,12,6,80,9,
-	6,1,6,1,6,1,6,0,1,2,7,0,2,4,6,8,10,12,0,0,87,0,19,1,0,0,0,2,36,1,0,0,0,
-	4,48,1,0,0,0,6,50,1,0,0,0,8,55,1,0,0,0,10,68,1,0,0,0,12,78,1,0,0,0,14,15,
-	3,2,1,0,15,16,5,1,0,0,16,17,3,0,0,0,17,20,1,0,0,0,18,20,3,2,1,0,19,14,1,
-	0,0,0,19,18,1,0,0,0,20,1,1,0,0,0,21,22,6,1,-1,0,22,37,5,2,0,0,23,37,5,16,
-	0,0,24,25,5,3,0,0,25,26,3,0,0,0,26,27,5,4,0,0,27,37,1,0,0,0,28,33,3,6,3,
-	0,29,30,5,5,0,0,30,32,3,6,3,0,31,29,1,0,0,0,32,35,1,0,0,0,33,31,1,0,0,0,
-	33,34,1,0,0,0,34,37,1,0,0,0,35,33,1,0,0,0,36,21,1,0,0,0,36,23,1,0,0,0,36,
-	24,1,0,0,0,36,28,1,0,0,0,37,43,1,0,0,0,38,39,10,1,0,0,39,40,5,6,0,0,40,
-	42,5,15,0,0,41,38,1,0,0,0,42,45,1,0,0,0,43,41,1,0,0,0,43,44,1,0,0,0,44,
-	3,1,0,0,0,45,43,1,0,0,0,46,49,5,7,0,0,47,49,5,8,0,0,48,46,1,0,0,0,48,47,
-	1,0,0,0,49,5,1,0,0,0,50,51,5,15,0,0,51,52,3,4,2,0,52,53,5,9,0,0,53,54,3,
-	0,0,0,54,7,1,0,0,0,55,64,5,3,0,0,56,61,5,15,0,0,57,58,5,10,0,0,58,60,5,
-	15,0,0,59,57,1,0,0,0,60,63,1,0,0,0,61,59,1,0,0,0,61,62,1,0,0,0,62,65,1,
-	0,0,0,63,61,1,0,0,0,64,56,1,0,0,0,64,65,1,0,0,0,65,66,1,0,0,0,66,67,5,4,
-	0,0,67,9,1,0,0,0,68,70,5,16,0,0,69,71,3,8,4,0,70,69,1,0,0,0,70,71,1,0,0,
-	0,71,72,1,0,0,0,72,73,5,11,0,0,73,74,3,0,0,0,74,11,1,0,0,0,75,77,3,10,5,
-	0,76,75,1,0,0,0,77,80,1,0,0,0,78,76,1,0,0,0,78,79,1,0,0,0,79,81,1,0,0,0,
-	80,78,1,0,0,0,81,82,5,0,0,1,82,13,1,0,0,0,9,19,33,36,43,48,61,64,70,78];
+	8,0,1,1,1,1,1,1,1,1,3,1,26,8,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,35,8,1,10,
+	1,12,1,38,9,1,3,1,40,8,1,1,1,1,1,1,1,5,1,45,8,1,10,1,12,1,48,9,1,1,2,1,
+	2,3,2,52,8,2,1,3,1,3,1,3,1,3,1,3,1,4,1,4,1,4,1,4,5,4,63,8,4,10,4,12,4,66,
+	9,4,3,4,68,8,4,1,4,1,4,1,5,1,5,3,5,74,8,5,1,5,1,5,1,5,1,6,5,6,80,8,6,10,
+	6,12,6,83,9,6,1,6,1,6,1,6,0,1,2,7,0,2,4,6,8,10,12,0,0,91,0,19,1,0,0,0,2,
+	39,1,0,0,0,4,51,1,0,0,0,6,53,1,0,0,0,8,58,1,0,0,0,10,71,1,0,0,0,12,81,1,
+	0,0,0,14,15,3,2,1,0,15,16,5,1,0,0,16,17,3,0,0,0,17,20,1,0,0,0,18,20,3,2,
+	1,0,19,14,1,0,0,0,19,18,1,0,0,0,20,1,1,0,0,0,21,22,6,1,-1,0,22,40,5,2,0,
+	0,23,25,5,16,0,0,24,26,3,8,4,0,25,24,1,0,0,0,25,26,1,0,0,0,26,40,1,0,0,
+	0,27,28,5,3,0,0,28,29,3,0,0,0,29,30,5,4,0,0,30,40,1,0,0,0,31,36,3,6,3,0,
+	32,33,5,5,0,0,33,35,3,6,3,0,34,32,1,0,0,0,35,38,1,0,0,0,36,34,1,0,0,0,36,
+	37,1,0,0,0,37,40,1,0,0,0,38,36,1,0,0,0,39,21,1,0,0,0,39,23,1,0,0,0,39,27,
+	1,0,0,0,39,31,1,0,0,0,40,46,1,0,0,0,41,42,10,1,0,0,42,43,5,6,0,0,43,45,
+	5,15,0,0,44,41,1,0,0,0,45,48,1,0,0,0,46,44,1,0,0,0,46,47,1,0,0,0,47,3,1,
+	0,0,0,48,46,1,0,0,0,49,52,5,7,0,0,50,52,5,8,0,0,51,49,1,0,0,0,51,50,1,0,
+	0,0,52,5,1,0,0,0,53,54,5,15,0,0,54,55,3,4,2,0,55,56,5,9,0,0,56,57,3,0,0,
+	0,57,7,1,0,0,0,58,67,5,3,0,0,59,64,5,15,0,0,60,61,5,10,0,0,61,63,5,15,0,
+	0,62,60,1,0,0,0,63,66,1,0,0,0,64,62,1,0,0,0,64,65,1,0,0,0,65,68,1,0,0,0,
+	66,64,1,0,0,0,67,59,1,0,0,0,67,68,1,0,0,0,68,69,1,0,0,0,69,70,5,4,0,0,70,
+	9,1,0,0,0,71,73,5,16,0,0,72,74,3,8,4,0,73,72,1,0,0,0,73,74,1,0,0,0,74,75,
+	1,0,0,0,75,76,5,11,0,0,76,77,3,0,0,0,77,11,1,0,0,0,78,80,3,10,5,0,79,78,
+	1,0,0,0,80,83,1,0,0,0,81,79,1,0,0,0,81,82,1,0,0,0,82,84,1,0,0,0,83,81,1,
+	0,0,0,84,85,5,0,0,1,85,13,1,0,0,0,10,19,25,36,39,46,51,64,67,73,81];
 
 	private static __ATN: ATN;
 	public static get _ATN(): ATN {
@@ -628,6 +639,9 @@ export class AgentIdContext extends SeqAgentContext {
 	}
 	public AGENT_ID(): TerminalNode {
 		return this.getToken(CCSParser.AGENT_ID, 0);
+	}
+	public defParams(): DefParamsContext {
+		return this.getTypedRuleContext(DefParamsContext, 0) as DefParamsContext;
 	}
 	public enterRule(listener: CCSListener): void {
 	    if(listener.enterAgentId) {

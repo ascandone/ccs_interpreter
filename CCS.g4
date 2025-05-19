@@ -15,7 +15,7 @@ agent
 
 seqAgent
 	: '0'	# nil
-	| AGENT_ID		# agentId
+	| AGENT_ID defParams?		# agentId
 	| '(' agent ')'		# parenthesized
 	| choiceClause ('+' choiceClause)*		# choice
 	| seqAgent '\\' EVT_ID	# restriction // <- TODO agent instead?
