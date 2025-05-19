@@ -2,8 +2,34 @@ import { test, expect, vi } from "vitest";
 import { Simulation } from "./simulate";
 import { unsafeParse } from "./parser";
 
-function parseSimulation(src: string) {
-  return new Simulation(unsafeParse(src));
+function parseSimulation(
+  src: string,
+  choicesSelector?: Array<{ type: "send" | "receive"; name: string }>
+) {
+  const s = new Simulation(unsafeParse(src));
+
+  if (choicesSelector !== undefined) {
+    choicesSelector.reverse();
+    s.onUpdateChoices((choices) => {
+      const selection = choicesSelector.pop();
+      if (selection === undefined) {
+        return;
+      }
+
+      for (const choice of choices) {
+        const lookup = choice.clauses.find(
+          (clause) =>
+            clause.type === selection.type && clause.evt === selection.name
+        );
+        if (lookup !== undefined) {
+          choice.resolveAgent(lookup.after);
+          return;
+        }
+      }
+    });
+  }
+
+  return s;
 }
 
 test("empty procs terminates", { timeout: 10 }, async () => {
@@ -15,48 +41,12 @@ test("empty procs terminates", { timeout: 10 }, async () => {
 });
 
 test("emit message", { timeout: 10 }, async () => {
-  const EVT_NAME = "x";
-
-  const s = parseSimulation(`Main = x!.0`);
-
-  s.onUpdateChoices((newChoices) => {
-    if (newChoices.length === 0) {
-      return;
-    }
-
-    const [{ clauses, resolveAgent }] = newChoices;
-
-    const clause = clauses.find(
-      (clause) => clause.type === "send" && clause.evt === EVT_NAME
-    );
-
-    expect(clause).not.toBeUndefined();
-    resolveAgent(clause!.after);
-  });
-
+  const s = parseSimulation(`Main = x!.0`, [{ type: "send", name: "x" }]);
   await s.run();
 });
 
 test("receive messages", { timeout: 10 }, async () => {
-  const EVT_NAME = "x";
-
-  const s = parseSimulation(`Main = x?.0`);
-
-  s.onUpdateChoices((newChoices) => {
-    if (newChoices.length === 0) {
-      return;
-    }
-
-    const [{ clauses, resolveAgent }] = newChoices;
-
-    const clause = clauses.find(
-      (clause) => clause.type === "receive" && clause.evt === EVT_NAME
-    );
-
-    expect(clause).not.toBeUndefined();
-    resolveAgent(clause!.after);
-  });
-
+  const s = parseSimulation(`Main = x?.0`, [{ type: "receive", name: "x" }]);
   await s.run();
 });
 
