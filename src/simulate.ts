@@ -1,8 +1,8 @@
-import { Agent, Program, SelectClause } from "./ast";
+import type { Agent, Program, SelectClause } from "./ast";
 
 export class ExecutionError extends Error {}
 
-type PendingChoice = {
+export type PendingChoice = {
   resolveAgent(agent: Agent): void;
   clauses: SelectClause[];
 };
@@ -62,13 +62,6 @@ export class Simulation {
             (newClause.type === "receive" && pendingClause.type === "send")
           ) {
             pendingChoice.resolveAgent(pendingClause.after);
-
-            // deque the old pending choice
-            this.pendingChoices = this.pendingChoices.filter(
-              (c) => c !== pendingChoice
-            );
-            this.notifyListeners();
-
             return newClause.after;
           }
         }
@@ -100,11 +93,19 @@ export class Simulation {
             return;
           }
 
-          // Else, put in queue and notify listeners
-          this.pendingChoices.push({
-            resolveAgent,
+          const choice = {
+            resolveAgent: (agent: Agent) => {
+              this.pendingChoices = this.pendingChoices.filter(
+                (c) => c !== choice
+              );
+              this.notifyListeners();
+              resolveAgent(agent);
+            },
             clauses: agent.clauses,
-          });
+          };
+
+          // Else, put in queue and notify listeners
+          this.pendingChoices.push(choice);
           this.notifyListeners();
         });
 

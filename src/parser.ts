@@ -10,7 +10,7 @@ class AgentVisitor extends Visitor<ast.Agent> {
   visitParenthesized = (ctx: parser.ParenthesizedContext): ast.Agent =>
     this.visit(ctx.agent());
 
-  visitNil = (_ctx: parser.NilContext): ast.Agent => ({
+  visitNil = (): ast.Agent => ({
     type: "empty",
   });
   visitPar = (ctx: parser.ParContext): ast.Agent => ({
@@ -59,10 +59,10 @@ class LexerErrorListener extends ErrorListener<number> {
   syntaxError(
     _recognizer: antlr4.Recognizer<number>,
     _offendingSymbol: number,
-    line: number,
-    column: number,
-    msg: string,
-    _e: antlr4.RecognitionException | undefined
+    _line: number,
+    _column: number,
+    msg: string
+    // _e: antlr4.RecognitionException | undefined
   ): void {
     this.errors.push(new AntlrParsingError(msg));
   }
@@ -73,7 +73,7 @@ class ParsingErrorListener extends ErrorListener<antlr4.Token> {
 
   syntaxError(
     _recognizer: antlr4.Recognizer<antlr4.Token>,
-    offendingSymbol: antlr4.Token,
+    _offendingSymbol: antlr4.Token,
     _line: number,
     _column: number,
     msg: string
@@ -112,10 +112,11 @@ export function parse(input: string): ParseResult {
   };
 }
 
+export class ParsingError extends Error {}
 export function unsafeParse(input: string): ast.Program {
   const parsed = parse(input);
   if (parsed.errors.length !== 0) {
-    throw new Error(`Lexing error: ${parsed.errors[0]!.description}`);
+    throw new ParsingError(`Parsing error: ${parsed.errors[0]!.description}`);
   }
 
   return parsed.parsed;
