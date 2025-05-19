@@ -6,7 +6,7 @@ NEWLINE: '\r'? '\n' -> skip;
 WS: [ \t\r\n]+ -> skip;
 
 EVT_ID: [a-z] [_a-z0-9]*;
-AGENT_ID: [A-Z]+ [a-zA-Z0-9]*;
+AGENT_ID: [A-Z]+ [_a-zA-Z0-9]*;
 
 agent
 	: left=seqAgent '|' right=agent # par
