@@ -30,7 +30,6 @@ const Simulator: FC<{ source: string }> = ({ source }) => {
       await simulator.run();
 
       setPendingChoices([]);
-      alert("done!");
     } catch (error) {
       if (
         !(error instanceof ParsingError) &&
