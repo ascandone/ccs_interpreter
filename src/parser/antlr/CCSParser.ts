@@ -34,10 +34,10 @@ export default class CCSParser extends Parser {
 	public static readonly NEWLINE = 13;
 	public static readonly WS = 14;
 	public static readonly EVT_ID = 15;
-	public static readonly AGENT_ID = 16;
+	public static readonly PROC_ID = 16;
 	public static override readonly EOF = Token.EOF;
-	public static readonly RULE_agent = 0;
-	public static readonly RULE_seqAgent = 1;
+	public static readonly RULE_proc = 0;
+	public static readonly RULE_seqProc = 1;
 	public static readonly RULE_evtType = 2;
 	public static readonly RULE_choiceClause = 3;
 	public static readonly RULE_defParams = 4;
@@ -58,10 +58,10 @@ export default class CCSParser extends Parser {
                                                              "LINE_COMMENT", 
                                                              "NEWLINE", 
                                                              "WS", "EVT_ID", 
-                                                             "AGENT_ID" ];
+                                                             "PROC_ID" ];
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
-		"agent", "seqAgent", "evtType", "choiceClause", "defParams", "def", "program",
+		"proc", "seqProc", "evtType", "choiceClause", "defParams", "def", "program",
 	];
 	public get grammarFileName(): string { return "CCS.g4"; }
 	public get literalNames(): (string | null)[] { return CCSParser.literalNames; }
@@ -78,9 +78,9 @@ export default class CCSParser extends Parser {
 		this._interp = new ParserATNSimulator(this, CCSParser._ATN, CCSParser.DecisionsToDFA, new PredictionContextCache());
 	}
 	// @RuleVersion(0)
-	public agent(): AgentContext {
-		let localctx: AgentContext = new AgentContext(this, this._ctx, this.state);
-		this.enterRule(localctx, 0, CCSParser.RULE_agent);
+	public proc(): ProcContext {
+		let localctx: ProcContext = new ProcContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 0, CCSParser.RULE_proc);
 		try {
 			this.state = 19;
 			this._errHandler.sync(this);
@@ -90,11 +90,11 @@ export default class CCSParser extends Parser {
 				this.enterOuterAlt(localctx, 1);
 				{
 				this.state = 14;
-				(localctx as ParContext)._left = this.seqAgent(0);
+				(localctx as ParContext)._left = this.seqProc(0);
 				this.state = 15;
 				this.match(CCSParser.T__0);
 				this.state = 16;
-				(localctx as ParContext)._right = this.agent();
+				(localctx as ParContext)._right = this.proc();
 				}
 				break;
 			case 2:
@@ -102,7 +102,7 @@ export default class CCSParser extends Parser {
 				this.enterOuterAlt(localctx, 2);
 				{
 				this.state = 18;
-				this.seqAgent(0);
+				this.seqProc(0);
 				}
 				break;
 			}
@@ -122,20 +122,20 @@ export default class CCSParser extends Parser {
 		return localctx;
 	}
 
-	public seqAgent(): SeqAgentContext;
-	public seqAgent(_p: number): SeqAgentContext;
+	public seqProc(): SeqProcContext;
+	public seqProc(_p: number): SeqProcContext;
 	// @RuleVersion(0)
-	public seqAgent(_p?: number): SeqAgentContext {
+	public seqProc(_p?: number): SeqProcContext {
 		if (_p === undefined) {
 			_p = 0;
 		}
 
 		let _parentctx: ParserRuleContext = this._ctx;
 		let _parentState: number = this.state;
-		let localctx: SeqAgentContext = new SeqAgentContext(this, this._ctx, _parentState);
-		let _prevctx: SeqAgentContext = localctx;
+		let localctx: SeqProcContext = new SeqProcContext(this, this._ctx, _parentState);
+		let _prevctx: SeqProcContext = localctx;
 		let _startState: number = 2;
-		this.enterRecursionRule(localctx, 2, CCSParser.RULE_seqAgent, _p);
+		this.enterRecursionRule(localctx, 2, CCSParser.RULE_seqProc, _p);
 		try {
 			let _alt: number;
 			this.enterOuterAlt(localctx, 1);
@@ -155,11 +155,11 @@ export default class CCSParser extends Parser {
 				break;
 			case 16:
 				{
-				localctx = new AgentIdContext(this, localctx);
+				localctx = new ProcIdContext(this, localctx);
 				this._ctx = localctx;
 				_prevctx = localctx;
 				this.state = 23;
-				this.match(CCSParser.AGENT_ID);
+				this.match(CCSParser.PROC_ID);
 				this.state = 25;
 				this._errHandler.sync(this);
 				switch ( this._interp.adaptivePredict(this._input, 1, this._ctx) ) {
@@ -180,7 +180,7 @@ export default class CCSParser extends Parser {
 				this.state = 27;
 				this.match(CCSParser.T__2);
 				this.state = 28;
-				this.agent();
+				this.proc();
 				this.state = 29;
 				this.match(CCSParser.T__3);
 				}
@@ -227,8 +227,8 @@ export default class CCSParser extends Parser {
 					_prevctx = localctx;
 					{
 					{
-					localctx = new RestrictionContext(this, new SeqAgentContext(this, _parentctx, _parentState));
-					this.pushNewRecursionContext(localctx, _startState, CCSParser.RULE_seqAgent);
+					localctx = new RestrictionContext(this, new SeqProcContext(this, _parentctx, _parentState));
+					this.pushNewRecursionContext(localctx, _startState, CCSParser.RULE_seqProc);
 					this.state = 41;
 					if (!(this.precpred(this._ctx, 1))) {
 						throw this.createFailedPredicateException("this.precpred(this._ctx, 1)");
@@ -316,7 +316,7 @@ export default class CCSParser extends Parser {
 			this.state = 55;
 			this.match(CCSParser.T__8);
 			this.state = 56;
-			this.seqAgent(0);
+			this.seqProc(0);
 			}
 		}
 		catch (re) {
@@ -396,7 +396,7 @@ export default class CCSParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 71;
-			this.match(CCSParser.AGENT_ID);
+			this.match(CCSParser.PROC_ID);
 			this.state = 73;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
@@ -410,7 +410,7 @@ export default class CCSParser extends Parser {
 			this.state = 75;
 			this.match(CCSParser.T__10);
 			this.state = 76;
-			this.agent();
+			this.proc();
 			}
 		}
 		catch (re) {
@@ -471,11 +471,11 @@ export default class CCSParser extends Parser {
 	public sempred(localctx: RuleContext, ruleIndex: number, predIndex: number): boolean {
 		switch (ruleIndex) {
 		case 1:
-			return this.seqAgent_sempred(localctx as SeqAgentContext, predIndex);
+			return this.seqProc_sempred(localctx as SeqProcContext, predIndex);
 		}
 		return true;
 	}
-	private seqAgent_sempred(localctx: SeqAgentContext, predIndex: number): boolean {
+	private seqProc_sempred(localctx: SeqProcContext, predIndex: number): boolean {
 		switch (predIndex) {
 		case 0:
 			return this.precpred(this._ctx, 1);
@@ -523,30 +523,30 @@ export default class CCSParser extends Parser {
 
 }
 
-export class AgentContext extends ParserRuleContext {
+export class ProcContext extends ParserRuleContext {
 	constructor(parser?: CCSParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
     	this.parser = parser;
 	}
     public get ruleIndex(): number {
-    	return CCSParser.RULE_agent;
+    	return CCSParser.RULE_proc;
 	}
-	public override copyFrom(ctx: AgentContext): void {
+	public override copyFrom(ctx: ProcContext): void {
 		super.copyFrom(ctx);
 	}
 }
-export class ParContext extends AgentContext {
-	public _left!: SeqAgentContext;
-	public _right!: AgentContext;
-	constructor(parser: CCSParser, ctx: AgentContext) {
+export class ParContext extends ProcContext {
+	public _left!: SeqProcContext;
+	public _right!: ProcContext;
+	constructor(parser: CCSParser, ctx: ProcContext) {
 		super(parser, ctx.parentCtx, ctx.invokingState);
 		super.copyFrom(ctx);
 	}
-	public seqAgent(): SeqAgentContext {
-		return this.getTypedRuleContext(SeqAgentContext, 0) as SeqAgentContext;
+	public seqProc(): SeqProcContext {
+		return this.getTypedRuleContext(SeqProcContext, 0) as SeqProcContext;
 	}
-	public agent(): AgentContext {
-		return this.getTypedRuleContext(AgentContext, 0) as AgentContext;
+	public proc(): ProcContext {
+		return this.getTypedRuleContext(ProcContext, 0) as ProcContext;
 	}
 	public enterRule(listener: CCSListener): void {
 	    if(listener.enterPar) {
@@ -567,13 +567,13 @@ export class ParContext extends AgentContext {
 		}
 	}
 }
-export class SeqContext extends AgentContext {
-	constructor(parser: CCSParser, ctx: AgentContext) {
+export class SeqContext extends ProcContext {
+	constructor(parser: CCSParser, ctx: ProcContext) {
 		super(parser, ctx.parentCtx, ctx.invokingState);
 		super.copyFrom(ctx);
 	}
-	public seqAgent(): SeqAgentContext {
-		return this.getTypedRuleContext(SeqAgentContext, 0) as SeqAgentContext;
+	public seqProc(): SeqProcContext {
+		return this.getTypedRuleContext(SeqProcContext, 0) as SeqProcContext;
 	}
 	public enterRule(listener: CCSListener): void {
 	    if(listener.enterSeq) {
@@ -596,20 +596,20 @@ export class SeqContext extends AgentContext {
 }
 
 
-export class SeqAgentContext extends ParserRuleContext {
+export class SeqProcContext extends ParserRuleContext {
 	constructor(parser?: CCSParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
     	this.parser = parser;
 	}
     public get ruleIndex(): number {
-    	return CCSParser.RULE_seqAgent;
+    	return CCSParser.RULE_seqProc;
 	}
-	public override copyFrom(ctx: SeqAgentContext): void {
+	public override copyFrom(ctx: SeqProcContext): void {
 		super.copyFrom(ctx);
 	}
 }
-export class NilContext extends SeqAgentContext {
-	constructor(parser: CCSParser, ctx: SeqAgentContext) {
+export class NilContext extends SeqProcContext {
+	constructor(parser: CCSParser, ctx: SeqProcContext) {
 		super(parser, ctx.parentCtx, ctx.invokingState);
 		super.copyFrom(ctx);
 	}
@@ -632,43 +632,13 @@ export class NilContext extends SeqAgentContext {
 		}
 	}
 }
-export class AgentIdContext extends SeqAgentContext {
-	constructor(parser: CCSParser, ctx: SeqAgentContext) {
+export class ParenthesizedContext extends SeqProcContext {
+	constructor(parser: CCSParser, ctx: SeqProcContext) {
 		super(parser, ctx.parentCtx, ctx.invokingState);
 		super.copyFrom(ctx);
 	}
-	public AGENT_ID(): TerminalNode {
-		return this.getToken(CCSParser.AGENT_ID, 0);
-	}
-	public defParams(): DefParamsContext {
-		return this.getTypedRuleContext(DefParamsContext, 0) as DefParamsContext;
-	}
-	public enterRule(listener: CCSListener): void {
-	    if(listener.enterAgentId) {
-	 		listener.enterAgentId(this);
-		}
-	}
-	public exitRule(listener: CCSListener): void {
-	    if(listener.exitAgentId) {
-	 		listener.exitAgentId(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: CCSVisitor<Result>): Result {
-		if (visitor.visitAgentId) {
-			return visitor.visitAgentId(this);
-		} else {
-			return visitor.visitChildren(this);
-		}
-	}
-}
-export class ParenthesizedContext extends SeqAgentContext {
-	constructor(parser: CCSParser, ctx: SeqAgentContext) {
-		super(parser, ctx.parentCtx, ctx.invokingState);
-		super.copyFrom(ctx);
-	}
-	public agent(): AgentContext {
-		return this.getTypedRuleContext(AgentContext, 0) as AgentContext;
+	public proc(): ProcContext {
+		return this.getTypedRuleContext(ProcContext, 0) as ProcContext;
 	}
 	public enterRule(listener: CCSListener): void {
 	    if(listener.enterParenthesized) {
@@ -689,13 +659,43 @@ export class ParenthesizedContext extends SeqAgentContext {
 		}
 	}
 }
-export class RestrictionContext extends SeqAgentContext {
-	constructor(parser: CCSParser, ctx: SeqAgentContext) {
+export class ProcIdContext extends SeqProcContext {
+	constructor(parser: CCSParser, ctx: SeqProcContext) {
 		super(parser, ctx.parentCtx, ctx.invokingState);
 		super.copyFrom(ctx);
 	}
-	public seqAgent(): SeqAgentContext {
-		return this.getTypedRuleContext(SeqAgentContext, 0) as SeqAgentContext;
+	public PROC_ID(): TerminalNode {
+		return this.getToken(CCSParser.PROC_ID, 0);
+	}
+	public defParams(): DefParamsContext {
+		return this.getTypedRuleContext(DefParamsContext, 0) as DefParamsContext;
+	}
+	public enterRule(listener: CCSListener): void {
+	    if(listener.enterProcId) {
+	 		listener.enterProcId(this);
+		}
+	}
+	public exitRule(listener: CCSListener): void {
+	    if(listener.exitProcId) {
+	 		listener.exitProcId(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: CCSVisitor<Result>): Result {
+		if (visitor.visitProcId) {
+			return visitor.visitProcId(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+export class RestrictionContext extends SeqProcContext {
+	constructor(parser: CCSParser, ctx: SeqProcContext) {
+		super(parser, ctx.parentCtx, ctx.invokingState);
+		super.copyFrom(ctx);
+	}
+	public seqProc(): SeqProcContext {
+		return this.getTypedRuleContext(SeqProcContext, 0) as SeqProcContext;
 	}
 	public EVT_ID(): TerminalNode {
 		return this.getToken(CCSParser.EVT_ID, 0);
@@ -719,8 +719,8 @@ export class RestrictionContext extends SeqAgentContext {
 		}
 	}
 }
-export class ChoiceContext extends SeqAgentContext {
-	constructor(parser: CCSParser, ctx: SeqAgentContext) {
+export class ChoiceContext extends SeqProcContext {
+	constructor(parser: CCSParser, ctx: SeqProcContext) {
 		super(parser, ctx.parentCtx, ctx.invokingState);
 		super.copyFrom(ctx);
 	}
@@ -824,8 +824,8 @@ export class ChoiceClauseContext extends ParserRuleContext {
 	public evtType(): EvtTypeContext {
 		return this.getTypedRuleContext(EvtTypeContext, 0) as EvtTypeContext;
 	}
-	public seqAgent(): SeqAgentContext {
-		return this.getTypedRuleContext(SeqAgentContext, 0) as SeqAgentContext;
+	public seqProc(): SeqProcContext {
+		return this.getTypedRuleContext(SeqProcContext, 0) as SeqProcContext;
 	}
     public get ruleIndex(): number {
     	return CCSParser.RULE_choiceClause;
@@ -891,11 +891,11 @@ export class DefContext extends ParserRuleContext {
 		super(parent, invokingState);
     	this.parser = parser;
 	}
-	public AGENT_ID(): TerminalNode {
-		return this.getToken(CCSParser.AGENT_ID, 0);
+	public PROC_ID(): TerminalNode {
+		return this.getToken(CCSParser.PROC_ID, 0);
 	}
-	public agent(): AgentContext {
-		return this.getTypedRuleContext(AgentContext, 0) as AgentContext;
+	public proc(): ProcContext {
+		return this.getTypedRuleContext(ProcContext, 0) as ProcContext;
 	}
 	public defParams(): DefParamsContext {
 		return this.getTypedRuleContext(DefParamsContext, 0) as DefParamsContext;

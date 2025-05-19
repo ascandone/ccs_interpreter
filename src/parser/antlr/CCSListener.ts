@@ -6,8 +6,8 @@ import {ParseTreeListener} from "antlr4";
 import { ParContext } from "./CCSParser.js";
 import { SeqContext } from "./CCSParser.js";
 import { NilContext } from "./CCSParser.js";
-import { AgentIdContext } from "./CCSParser.js";
 import { ParenthesizedContext } from "./CCSParser.js";
+import { ProcIdContext } from "./CCSParser.js";
 import { RestrictionContext } from "./CCSParser.js";
 import { ChoiceContext } from "./CCSParser.js";
 import { ReceiveContext } from "./CCSParser.js";
@@ -25,85 +25,85 @@ import { ProgramContext } from "./CCSParser.js";
 export default class CCSListener extends ParseTreeListener {
 	/**
 	 * Enter a parse tree produced by the `par`
-	 * labeled alternative in `CCSParser.agent`.
+	 * labeled alternative in `CCSParser.proc`.
 	 * @param ctx the parse tree
 	 */
 	enterPar?: (ctx: ParContext) => void;
 	/**
 	 * Exit a parse tree produced by the `par`
-	 * labeled alternative in `CCSParser.agent`.
+	 * labeled alternative in `CCSParser.proc`.
 	 * @param ctx the parse tree
 	 */
 	exitPar?: (ctx: ParContext) => void;
 	/**
 	 * Enter a parse tree produced by the `seq`
-	 * labeled alternative in `CCSParser.agent`.
+	 * labeled alternative in `CCSParser.proc`.
 	 * @param ctx the parse tree
 	 */
 	enterSeq?: (ctx: SeqContext) => void;
 	/**
 	 * Exit a parse tree produced by the `seq`
-	 * labeled alternative in `CCSParser.agent`.
+	 * labeled alternative in `CCSParser.proc`.
 	 * @param ctx the parse tree
 	 */
 	exitSeq?: (ctx: SeqContext) => void;
 	/**
 	 * Enter a parse tree produced by the `nil`
-	 * labeled alternative in `CCSParser.seqAgent`.
+	 * labeled alternative in `CCSParser.seqProc`.
 	 * @param ctx the parse tree
 	 */
 	enterNil?: (ctx: NilContext) => void;
 	/**
 	 * Exit a parse tree produced by the `nil`
-	 * labeled alternative in `CCSParser.seqAgent`.
+	 * labeled alternative in `CCSParser.seqProc`.
 	 * @param ctx the parse tree
 	 */
 	exitNil?: (ctx: NilContext) => void;
 	/**
-	 * Enter a parse tree produced by the `agentId`
-	 * labeled alternative in `CCSParser.seqAgent`.
-	 * @param ctx the parse tree
-	 */
-	enterAgentId?: (ctx: AgentIdContext) => void;
-	/**
-	 * Exit a parse tree produced by the `agentId`
-	 * labeled alternative in `CCSParser.seqAgent`.
-	 * @param ctx the parse tree
-	 */
-	exitAgentId?: (ctx: AgentIdContext) => void;
-	/**
 	 * Enter a parse tree produced by the `parenthesized`
-	 * labeled alternative in `CCSParser.seqAgent`.
+	 * labeled alternative in `CCSParser.seqProc`.
 	 * @param ctx the parse tree
 	 */
 	enterParenthesized?: (ctx: ParenthesizedContext) => void;
 	/**
 	 * Exit a parse tree produced by the `parenthesized`
-	 * labeled alternative in `CCSParser.seqAgent`.
+	 * labeled alternative in `CCSParser.seqProc`.
 	 * @param ctx the parse tree
 	 */
 	exitParenthesized?: (ctx: ParenthesizedContext) => void;
 	/**
+	 * Enter a parse tree produced by the `procId`
+	 * labeled alternative in `CCSParser.seqProc`.
+	 * @param ctx the parse tree
+	 */
+	enterProcId?: (ctx: ProcIdContext) => void;
+	/**
+	 * Exit a parse tree produced by the `procId`
+	 * labeled alternative in `CCSParser.seqProc`.
+	 * @param ctx the parse tree
+	 */
+	exitProcId?: (ctx: ProcIdContext) => void;
+	/**
 	 * Enter a parse tree produced by the `restriction`
-	 * labeled alternative in `CCSParser.seqAgent`.
+	 * labeled alternative in `CCSParser.seqProc`.
 	 * @param ctx the parse tree
 	 */
 	enterRestriction?: (ctx: RestrictionContext) => void;
 	/**
 	 * Exit a parse tree produced by the `restriction`
-	 * labeled alternative in `CCSParser.seqAgent`.
+	 * labeled alternative in `CCSParser.seqProc`.
 	 * @param ctx the parse tree
 	 */
 	exitRestriction?: (ctx: RestrictionContext) => void;
 	/**
 	 * Enter a parse tree produced by the `choice`
-	 * labeled alternative in `CCSParser.seqAgent`.
+	 * labeled alternative in `CCSParser.seqProc`.
 	 * @param ctx the parse tree
 	 */
 	enterChoice?: (ctx: ChoiceContext) => void;
 	/**
 	 * Exit a parse tree produced by the `choice`
-	 * labeled alternative in `CCSParser.seqAgent`.
+	 * labeled alternative in `CCSParser.seqProc`.
 	 * @param ctx the parse tree
 	 */
 	exitChoice?: (ctx: ChoiceContext) => void;

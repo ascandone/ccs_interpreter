@@ -34,11 +34,11 @@ LINE_COMMENT
 NEWLINE
 WS
 EVT_ID
-AGENT_ID
+PROC_ID
 
 rule names:
-agent
-seqAgent
+proc
+seqProc
 evtType
 choiceClause
 defParams

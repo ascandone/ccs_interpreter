@@ -114,7 +114,7 @@ const Simulator: FC<{ source: string }> = ({ source }) => {
                       <button
                         className={outlineBtn}
                         onClick={() => {
-                          choice.resolveAgent(clause.after);
+                          choice.resolveProcess(clause.after);
                         }}
                       >
                         {clause.type === "receive" ? "send" : "receive"}(

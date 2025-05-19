@@ -22,7 +22,7 @@ function parseSimulation(
             clause.type === selection.type && clause.evt === selection.name,
         );
         if (lookup !== undefined) {
-          choice.resolveAgent(lookup.after);
+          choice.resolveProcess(lookup.after);
           return;
         }
       }

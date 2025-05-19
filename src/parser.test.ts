@@ -13,11 +13,11 @@ test("nil program", () => {
   ).toMatchInlineSnapshot(`
     [
       {
-        "agent": {
-          "type": "empty",
-        },
         "name": "Main",
         "params": [],
+        "process": {
+          "type": "empty",
+        },
       },
     ]
   `);
@@ -31,13 +31,13 @@ test("id", () => {
   ).toMatchInlineSnapshot(`
     [
       {
-        "agent": {
+        "name": "X",
+        "params": [],
+        "process": {
           "args": [],
           "name": "Y",
           "type": "ident",
         },
-        "name": "X",
-        "params": [],
       },
     ]
   `);
@@ -51,7 +51,9 @@ test("choice", () => {
   ).toMatchInlineSnapshot(`
     [
       {
-        "agent": {
+        "name": "Main",
+        "params": [],
+        "process": {
           "left": {
             "args": [],
             "name": "Left",
@@ -64,8 +66,6 @@ test("choice", () => {
           },
           "type": "par",
         },
-        "name": "Main",
-        "params": [],
       },
     ]
   `);
@@ -79,17 +79,17 @@ test("restriction", () => {
   ).toMatchInlineSnapshot(`
     [
       {
-        "agent": {
-          "agent": {
+        "name": "Main",
+        "params": [],
+        "process": {
+          "label": "x",
+          "process": {
             "args": [],
             "name": "Left",
             "type": "ident",
           },
-          "label": "x",
           "type": "restriction",
         },
-        "name": "Main",
-        "params": [],
       },
     ]
   `);
@@ -103,7 +103,9 @@ test("choice (unary)", () => {
   ).toMatchInlineSnapshot(`
     [
       {
-        "agent": {
+        "name": "Z",
+        "params": [],
+        "process": {
           "clauses": [
             {
               "after": {
@@ -117,8 +119,6 @@ test("choice (unary)", () => {
           ],
           "type": "choice",
         },
-        "name": "Z",
-        "params": [],
       },
     ]
   `);
@@ -135,7 +135,9 @@ test("choice (multiple)", () => {
   ).toMatchInlineSnapshot(`
     [
       {
-        "agent": {
+        "name": "Z",
+        "params": [],
+        "process": {
           "clauses": [
             {
               "after": {
@@ -167,8 +169,6 @@ test("choice (multiple)", () => {
           ],
           "type": "choice",
         },
-        "name": "Z",
-        "params": [],
       },
     ]
   `);
@@ -182,7 +182,9 @@ test("choice/par prec (explicit parens)", () => {
   ).toMatchInlineSnapshot(`
     [
       {
-        "agent": {
+        "name": "Main",
+        "params": [],
+        "process": {
           "left": {
             "clauses": [
               {
@@ -209,8 +211,6 @@ test("choice/par prec (explicit parens)", () => {
           },
           "type": "par",
         },
-        "name": "Main",
-        "params": [],
       },
     ]
   `);
@@ -224,7 +224,9 @@ test("choice/par prec", () => {
   ).toMatchInlineSnapshot(`
     [
       {
-        "agent": {
+        "name": "Main",
+        "params": [],
+        "process": {
           "left": {
             "clauses": [
               {
@@ -251,8 +253,6 @@ test("choice/par prec", () => {
           },
           "type": "par",
         },
-        "name": "Main",
-        "params": [],
       },
     ]
   `);
@@ -278,15 +278,15 @@ test("restriction", () => {
   ).toMatchInlineSnapshot(`
     [
       {
-        "agent": {
-          "agent": {
-            "type": "empty",
-          },
-          "label": "a",
-          "type": "restriction",
-        },
         "name": "Main",
         "params": [],
+        "process": {
+          "label": "a",
+          "process": {
+            "type": "empty",
+          },
+          "type": "restriction",
+        },
       },
     ]
   `);
@@ -300,8 +300,11 @@ test("restriction of choice", () => {
   ).toMatchInlineSnapshot(`
     [
       {
-        "agent": {
-          "agent": {
+        "name": "Main",
+        "params": [],
+        "process": {
+          "label": "a",
+          "process": {
             "clauses": [
               {
                 "after": {
@@ -313,11 +316,8 @@ test("restriction of choice", () => {
             ],
             "type": "choice",
           },
-          "label": "a",
           "type": "restriction",
         },
-        "name": "Main",
-        "params": [],
       },
     ]
   `);
@@ -333,31 +333,31 @@ test("def params", () => {
   ).toMatchInlineSnapshot(`
     [
       {
-        "agent": {
-          "type": "empty",
-        },
         "name": "NoArgs",
         "params": [],
-      },
-      {
-        "agent": {
+        "process": {
           "type": "empty",
         },
+      },
+      {
         "name": "SingleArg",
         "params": [
           "a",
           "b",
         ],
-      },
-      {
-        "agent": {
+        "process": {
           "type": "empty",
         },
+      },
+      {
         "name": "TwoArgs",
         "params": [
           "a",
           "b",
         ],
+        "process": {
+          "type": "empty",
+        },
       },
     ]
   `);
@@ -373,27 +373,29 @@ test("ident params", () => {
   ).toMatchInlineSnapshot(`
     [
       {
-        "agent": {
+        "name": "Main",
+        "params": [],
+        "process": {
           "args": [],
           "name": "NoArgs",
           "type": "ident",
         },
-        "name": "Main",
-        "params": [],
       },
       {
-        "agent": {
+        "name": "Main",
+        "params": [],
+        "process": {
           "args": [
             "x",
           ],
           "name": "SingleArg",
           "type": "ident",
         },
-        "name": "Main",
-        "params": [],
       },
       {
-        "agent": {
+        "name": "Main",
+        "params": [],
+        "process": {
           "args": [
             "a",
             "b",
@@ -402,8 +404,6 @@ test("ident params", () => {
           "name": "ManyArgs",
           "type": "ident",
         },
-        "name": "Main",
-        "params": [],
       },
     ]
   `);

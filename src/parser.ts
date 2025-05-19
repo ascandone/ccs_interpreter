@@ -4,21 +4,21 @@ import Parser, * as parser from "./parser/antlr/CCSParser";
 import Visitor from "./parser/antlr/CCSVisitor";
 import * as ast from "./ast";
 
-class AgentVisitor extends Visitor<ast.Agent> {
-  visitSeq = (ctx: parser.SeqContext): ast.Agent => this.visit(ctx.seqAgent());
+class ProcessVisitor extends Visitor<ast.Process> {
+  visitSeq = (ctx: parser.SeqContext): ast.Process => this.visit(ctx.seqProc());
 
-  visitParenthesized = (ctx: parser.ParenthesizedContext): ast.Agent =>
-    this.visit(ctx.agent());
+  visitParenthesized = (ctx: parser.ParenthesizedContext): ast.Process =>
+    this.visit(ctx.proc());
 
-  visitNil = (): ast.Agent => ({
+  visitNil = (): ast.Process => ({
     type: "empty",
   });
-  visitPar = (ctx: parser.ParContext): ast.Agent => ({
+  visitPar = (ctx: parser.ParContext): ast.Process => ({
     type: "par",
     left: this.visit(ctx._left),
     right: this.visit(ctx._right),
   });
-  visitChoice = (ctx: parser.ChoiceContext): ast.Agent => ({
+  visitChoice = (ctx: parser.ChoiceContext): ast.Process => ({
     type: "choice",
     clauses: ctx.choiceClause_list().map((ctx): ast.SelectClause => {
       const evtType: ast.SelectClause["type"] =
@@ -29,23 +29,23 @@ class AgentVisitor extends Visitor<ast.Agent> {
       return {
         type: evtType,
         evt: ctx.EVT_ID().getText(),
-        after: new AgentVisitor().visit(ctx.seqAgent()),
+        after: new ProcessVisitor().visit(ctx.seqProc()),
       };
     }) as ast.NonEmptyArr<ast.SelectClause>,
   });
-  visitRestriction = (ctx: parser.RestrictionContext): ast.Agent => ({
+  visitRestriction = (ctx: parser.RestrictionContext): ast.Process => ({
     type: "restriction",
     label: ctx.EVT_ID().getText(),
-    agent: this.visit(ctx.seqAgent()),
+    process: this.visit(ctx.seqProc()),
   });
-  visitAgentId = (ctx: parser.AgentIdContext): ast.Agent => ({
+  visitProcId = (ctx: parser.ProcIdContext): ast.Process => ({
     type: "ident",
     args:
       ctx
         .defParams()
         ?.EVT_ID_list()
         ?.map((t) => t.getText()) ?? [],
-    name: ctx.AGENT_ID().getText(),
+    name: ctx.PROC_ID().getText(),
   });
 }
 
@@ -106,14 +106,14 @@ export function parse(input: string): ParseResult {
 
   const declarations = declCtx.def_list().map((d): ast.Definition => {
     return {
-      name: d.AGENT_ID().getText(),
+      name: d.PROC_ID().getText(),
       params:
         d
           .defParams()
           ?.EVT_ID_list()
           ?.map((t) => t.getText()) ?? [],
 
-      agent: new AgentVisitor().visit(d.agent()),
+      process: new ProcessVisitor().visit(d.proc()),
     };
   });
 

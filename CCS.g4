@@ -6,26 +6,26 @@ NEWLINE: '\r'? '\n' -> skip;
 WS: [ \t\r\n]+ -> skip;
 
 EVT_ID: [a-z] [_a-z0-9]*;
-AGENT_ID: [A-Z]+ [_a-zA-Z0-9]*;
+PROC_ID: [A-Z]+ [_a-zA-Z0-9]*;
 
-agent
-	: left=seqAgent '|' right=agent # par
-	| seqAgent # seq
+proc
+	: left=seqProc '|' right=proc # par
+	| seqProc # seq
 	;
 
-seqAgent
+seqProc
 	: '0'	# nil
-	| AGENT_ID defParams?		# agentId
-	| '(' agent ')'		# parenthesized
+	| PROC_ID defParams?		# procId
+	| '(' proc ')'		# parenthesized
 	| choiceClause ('+' choiceClause)*		# choice
-	| seqAgent '\\' EVT_ID	# restriction // <- TODO agent instead?
+	| seqProc '\\' EVT_ID	# restriction
 	;
 
 evtType: '?' # receive | '!' # send;
-choiceClause: EVT_ID evtType '.' seqAgent;
+choiceClause: EVT_ID evtType '.' seqProc;
 
 defParams: '(' (EVT_ID (',' EVT_ID)*)? ')';
 
-def: AGENT_ID defParams? '=' agent;
+def: PROC_ID defParams? '=' proc;
 
 program: def* EOF;

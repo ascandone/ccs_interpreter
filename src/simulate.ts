@@ -1,4 +1,4 @@
-import type { Agent, Program, SelectClause } from "./ast";
+import type { Process, Program, SelectClause } from "./ast";
 
 export class ExecutionError extends Error {}
 
@@ -6,7 +6,7 @@ type ParamsScope = Record<string, string>;
 export type Restrictions = Record<string, string>;
 
 export type PendingChoice = {
-  resolveAgent(agent: Agent): void;
+  resolveProcess(process: Process): void;
   scope: Restrictions;
   clauses: SelectClause[];
 };
@@ -16,8 +16,8 @@ function genID() {
   return `SCOPE__${id}`;
 }
 export class Simulation {
-  private readonly agents: Record<string, [string[], Agent]>;
-  private readonly mainAgent: Agent;
+  private readonly procs: Record<string, [string[], Process]>;
+  private readonly mainProc: Process;
 
   private pendingChoices: PendingChoice[] = [];
 
@@ -43,24 +43,24 @@ export class Simulation {
   }
 
   constructor(readonly program: Program) {
-    this.agents = Object.fromEntries(
-      program.map(({ name, agent, params }) => [name, [params, agent]]),
+    this.procs = Object.fromEntries(
+      program.map(({ name, process, params }) => [name, [params, process]]),
     );
 
-    const mainAgent = this.agents.Main;
-    if (mainAgent === undefined) {
-      throw new ExecutionError("Missing Main agent");
+    const mainProc = this.procs.Main;
+    if (mainProc === undefined) {
+      throw new ExecutionError("Missing Main process");
     }
 
-    if (mainAgent[0].length !== 0) {
+    if (mainProc[0].length !== 0) {
       throw new ExecutionError("Main cannot have any params");
     }
 
-    this.mainAgent = mainAgent[1];
+    this.mainProc = mainProc[1];
   }
 
   public run(): Promise<void> {
-    return this.exec(this.mainAgent, {
+    return this.exec(this.mainProc, {
       path: ["Main"],
       restrictions: {},
       paramsScope: {},
@@ -70,7 +70,7 @@ export class Simulation {
   private lookupChoice(
     clauses: SelectClause[],
     restrictions: Restrictions,
-  ): Agent | undefined {
+  ): Process | undefined {
     for (const newClause of clauses) {
       for (const pendingChoice of this.pendingChoices) {
         for (const pendingClause of pendingChoice.clauses) {
@@ -84,7 +84,7 @@ export class Simulation {
             ((newClause.type === "send" && pendingClause.type === "receive") ||
               (newClause.type === "receive" && pendingClause.type === "send"))
           ) {
-            pendingChoice.resolveAgent(pendingClause.after);
+            pendingChoice.resolveProcess(pendingClause.after);
             return newClause.after;
           }
         }
@@ -95,39 +95,39 @@ export class Simulation {
   }
 
   private async exec(
-    agent: Agent,
+    process: Process,
     options: {
       path: string[];
       restrictions: Restrictions;
       paramsScope: ParamsScope;
     },
   ): Promise<void> {
-    switch (agent.type) {
+    switch (process.type) {
       case "empty":
         return;
 
       case "ident": {
-        const lookup = this.agents[agent.name];
+        const lookup = this.procs[process.name];
         if (lookup === undefined) {
-          throw new ExecutionError(`Invalid agent name: ${agent.name}`);
+          throw new ExecutionError(`Invalid process name: ${process.name}`);
         }
 
         const [params, def] = lookup;
-        if (params.length !== agent.args.length) {
+        if (params.length !== process.args.length) {
           throw new ExecutionError(
-            `Wrong arity for ${agent.name}. Expected ${params.length}, got ${agent.args} instead.`,
+            `Wrong arity for ${process.name}. Expected ${params.length}, got ${process.args} instead.`,
           );
         }
 
-        if (options.path.includes(agent.name)) {
+        if (options.path.includes(process.name)) {
           throw new ExecutionError(
-            `Cannot define mutually recursive agents: '${options.path.join(" -> ")} -> ${agent.name}'. Try wrapping any of them into a + operator.`,
+            `Cannot define mutually recursive processes: '${options.path.join(" -> ")} -> ${process.name}'. Try wrapping any of them into a + operator.`,
           );
         }
 
         const paramsScope: ParamsScope = Object.fromEntries(
           params.map((param, i) => {
-            const correspondingArg = agent.args[i]!;
+            const correspondingArg = process.args[i]!;
             return [
               param,
               options.paramsScope[correspondingArg] ?? correspondingArg,
@@ -138,33 +138,33 @@ export class Simulation {
         return this.exec(def, {
           ...options,
           paramsScope,
-          path: [...options.path, agent.name],
+          path: [...options.path, process.name],
         });
       }
 
       case "choice": {
-        const clauses = agent.clauses.map((clause) => ({
+        const clauses = process.clauses.map((clause) => ({
           ...clause,
           evt: options.paramsScope[clause.evt] ?? clause.evt,
         }));
 
-        const nextAgent = await new Promise<Agent>((resolveAgent) => {
+        const nextProcess = await new Promise<Process>((resolveProcess) => {
           const lookup = this.lookupChoice(clauses, options.restrictions);
 
           if (lookup !== undefined) {
-            resolveAgent(lookup);
+            resolveProcess(lookup);
             return;
           }
 
           const choice: PendingChoice = {
             scope: options.restrictions,
             clauses,
-            resolveAgent: (agent: Agent) => {
+            resolveProcess: (process: Process) => {
               this.pendingChoices = this.pendingChoices.filter(
                 (c) => c !== choice,
               );
               this.notifyListeners();
-              resolveAgent(agent);
+              resolveProcess(process);
             },
           };
 
@@ -173,7 +173,7 @@ export class Simulation {
           this.notifyListeners();
         });
 
-        return this.exec(nextAgent, {
+        return this.exec(nextProcess, {
           ...options,
           path: [],
         });
@@ -181,14 +181,14 @@ export class Simulation {
 
       case "par":
         await Promise.all([
-          this.exec(agent.left, options),
-          this.exec(agent.right, options),
+          this.exec(process.left, options),
+          this.exec(process.right, options),
         ]);
         return;
 
       case "restriction": {
-        const label = options.paramsScope[agent.label] ?? agent.label;
-        return this.exec(agent.agent, {
+        const label = options.paramsScope[process.label] ?? process.label;
+        return this.exec(process.process, {
           ...options,
           restrictions: { ...options.restrictions, [label]: genID() },
         });

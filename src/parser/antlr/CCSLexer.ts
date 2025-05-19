@@ -27,7 +27,7 @@ export default class CCSLexer extends Lexer {
 	public static readonly NEWLINE = 13;
 	public static readonly WS = 14;
 	public static readonly EVT_ID = 15;
-	public static readonly AGENT_ID = 16;
+	public static readonly PROC_ID = 16;
 	public static readonly EOF = Token.EOF;
 
 	public static readonly channelNames: string[] = [ "DEFAULT_TOKEN_CHANNEL", "HIDDEN" ];
@@ -46,12 +46,12 @@ export default class CCSLexer extends Lexer {
                                                              "LINE_COMMENT", 
                                                              "NEWLINE", 
                                                              "WS", "EVT_ID", 
-                                                             "AGENT_ID" ];
+                                                             "PROC_ID" ];
 	public static readonly modeNames: string[] = [ "DEFAULT_MODE", ];
 
 	public static readonly ruleNames: string[] = [
 		"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
-		"T__9", "T__10", "LINE_COMMENT", "NEWLINE", "WS", "EVT_ID", "AGENT_ID",
+		"T__9", "T__10", "LINE_COMMENT", "NEWLINE", "WS", "EVT_ID", "PROC_ID",
 	];
 
 

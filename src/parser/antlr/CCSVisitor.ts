@@ -6,8 +6,8 @@ import {ParseTreeVisitor} from 'antlr4';
 import { ParContext } from "./CCSParser.js";
 import { SeqContext } from "./CCSParser.js";
 import { NilContext } from "./CCSParser.js";
-import { AgentIdContext } from "./CCSParser.js";
 import { ParenthesizedContext } from "./CCSParser.js";
+import { ProcIdContext } from "./CCSParser.js";
 import { RestrictionContext } from "./CCSParser.js";
 import { ChoiceContext } from "./CCSParser.js";
 import { ReceiveContext } from "./CCSParser.js";
@@ -28,49 +28,49 @@ import { ProgramContext } from "./CCSParser.js";
 export default class CCSVisitor<Result> extends ParseTreeVisitor<Result> {
 	/**
 	 * Visit a parse tree produced by the `par`
-	 * labeled alternative in `CCSParser.agent`.
+	 * labeled alternative in `CCSParser.proc`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitPar?: (ctx: ParContext) => Result;
 	/**
 	 * Visit a parse tree produced by the `seq`
-	 * labeled alternative in `CCSParser.agent`.
+	 * labeled alternative in `CCSParser.proc`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitSeq?: (ctx: SeqContext) => Result;
 	/**
 	 * Visit a parse tree produced by the `nil`
-	 * labeled alternative in `CCSParser.seqAgent`.
+	 * labeled alternative in `CCSParser.seqProc`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitNil?: (ctx: NilContext) => Result;
 	/**
-	 * Visit a parse tree produced by the `agentId`
-	 * labeled alternative in `CCSParser.seqAgent`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitAgentId?: (ctx: AgentIdContext) => Result;
-	/**
 	 * Visit a parse tree produced by the `parenthesized`
-	 * labeled alternative in `CCSParser.seqAgent`.
+	 * labeled alternative in `CCSParser.seqProc`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitParenthesized?: (ctx: ParenthesizedContext) => Result;
 	/**
+	 * Visit a parse tree produced by the `procId`
+	 * labeled alternative in `CCSParser.seqProc`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitProcId?: (ctx: ProcIdContext) => Result;
+	/**
 	 * Visit a parse tree produced by the `restriction`
-	 * labeled alternative in `CCSParser.seqAgent`.
+	 * labeled alternative in `CCSParser.seqProc`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitRestriction?: (ctx: RestrictionContext) => Result;
 	/**
 	 * Visit a parse tree produced by the `choice`
-	 * labeled alternative in `CCSParser.seqAgent`.
+	 * labeled alternative in `CCSParser.seqProc`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
