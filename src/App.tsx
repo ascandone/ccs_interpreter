@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FC } from "react";
 import { ParsingError, unsafeParse } from "./parser";
 import { ExecutionError, Simulation, type PendingChoice } from "./simulate";
+import { Editor } from "./Editor";
 
 const EXAMPLE_INPUT = String.raw`Main = (
   // we have two semaphores x and y
@@ -134,23 +135,6 @@ const Simulator: FC<{ source: string }> = ({ source }) => {
   );
 };
 
-const Editor: FC<{ text: string; setText: (newText: string) => void }> = ({
-  text,
-  setText,
-}) => {
-  return (
-    <div>
-      <textarea
-        className=" border p-2 rounded font-mono h-full"
-        value={text}
-        cols={72}
-        rows={30}
-        onChange={(e) => setText(e.target.value)}
-      ></textarea>
-    </div>
-  );
-};
-
 function useSerializedText(initial: string, storageKey: string) {
   const [text, setText] = useState(() => {
     const lookup = localStorage.getItem(storageKey);
@@ -168,8 +152,8 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-row gap-x-4 p-4">
-        <Editor text={text} setText={setText} />
+      <div className="flex flex-row gap-x-4 p-4 w-full h-screen">
+        <Editor text={text} setText={setText} onSubmit={() => {}} />
         <Simulator source={text} />
       </div>
     </>
