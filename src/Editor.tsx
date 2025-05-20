@@ -9,32 +9,6 @@ loader.init().then((monaco) => {
   monaco.languages.register({ id: CCS_LANG });
   monaco.languages.setMonarchTokensProvider(CCS_LANG, CCS_TOKENS_DEFINITIONS);
   monaco.languages.setLanguageConfiguration(CCS_LANG, CCS_LANGUAGE_CONFIG);
-
-  return;
-  monaco.editor.defineTheme("light", {
-    base: "vs",
-    inherit: true,
-    rules: [
-      { token: "comment", foreground: "999988", fontStyle: "italic" },
-      { token: "string", foreground: "726eef" },
-      { token: "string.bracket", foreground: "ffb86c" },
-      { token: "number", foreground: "1C5655" },
-      { token: "variable", foreground: "36ACAA" },
-      { token: "keyword", foreground: "507051" },
-      { token: "property", foreground: "247372" },
-      { token: "builtin", foreground: "6F42C1" },
-      { token: "symbol", foreground: "7BC67E" },
-      { token: "punctuation", foreground: "5B7083" },
-    ],
-    colors: {
-      "editor.background": "#FFFFFF",
-      "editor.foreground": "#3e3838",
-      "editorCursor.foreground": "#3e3838",
-      "editor.lineHighlightBackground": "#ebf0f066",
-      "editorLineNumber.foreground": "#5B7083",
-      "editor.selectionBackground": "#ebf0f099",
-    },
-  });
 });
 
 export type EditorProps = {
