@@ -13,7 +13,7 @@ const EXAMPLE_INPUT = String.raw`Main = (
   sy_up!.proc2?.sy_down!.0 |
   sx_up!.proc3?.sx_down!.0 |
   sx_up!.proc4?.sx_down!.0
-)\sx_up\sx_down\sy_up\sy_down
+)\{sx_up, sx_down, sy_up, sy_down}
 
 
 // a binary semaphore
