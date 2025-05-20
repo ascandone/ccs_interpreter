@@ -10,6 +10,7 @@ import { ParenthesizedContext } from "./CCSParser.js";
 import { ProcIdContext } from "./CCSParser.js";
 import { RestrictionContext } from "./CCSParser.js";
 import { ChoiceContext } from "./CCSParser.js";
+import { RestrictionSugarContext } from "./CCSParser.js";
 import { ReceiveContext } from "./CCSParser.js";
 import { SendContext } from "./CCSParser.js";
 import { ChoiceClauseContext } from "./CCSParser.js";
@@ -75,6 +76,13 @@ export default class CCSVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitChoice?: (ctx: ChoiceContext) => Result;
+	/**
+	 * Visit a parse tree produced by the `restrictionSugar`
+	 * labeled alternative in `CCSParser.seqProc`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitRestrictionSugar?: (ctx: RestrictionSugarContext) => Result;
 	/**
 	 * Visit a parse tree produced by the `receive`
 	 * labeled alternative in `CCSParser.evtType`.

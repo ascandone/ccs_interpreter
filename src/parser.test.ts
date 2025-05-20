@@ -408,3 +408,9 @@ test("ident params", () => {
     ]
   `);
 });
+
+test("restriction sugar", () => {
+  expect(unsafeParse(String.raw`Example = Proc\{x, y, z}`)).toEqual(
+    unsafeParse(String.raw`Example = Proc\x\y\z`),
+  );
+});

@@ -1,5 +1,4 @@
 // @ts-nocheck
-// @ts-nocheck
 // Generated from CCS.g4 by ANTLR 4.13.2
 // noinspection ES6UnusedImports,JSUnusedGlobalSymbols,JSUnusedLocalSymbols
 
@@ -32,11 +31,13 @@ export default class CCSParser extends Parser {
 	public static readonly T__8 = 9;
 	public static readonly T__9 = 10;
 	public static readonly T__10 = 11;
-	public static readonly LINE_COMMENT = 12;
-	public static readonly NEWLINE = 13;
-	public static readonly WS = 14;
-	public static readonly EVT_ID = 15;
-	public static readonly PROC_ID = 16;
+	public static readonly T__11 = 12;
+	public static readonly T__12 = 13;
+	public static readonly LINE_COMMENT = 14;
+	public static readonly NEWLINE = 15;
+	public static readonly WS = 16;
+	public static readonly EVT_ID = 17;
+	public static readonly PROC_ID = 18;
 	public static override readonly EOF = Token.EOF;
 	public static readonly RULE_proc = 0;
 	public static readonly RULE_seqProc = 1;
@@ -48,10 +49,12 @@ export default class CCSParser extends Parser {
 	public static readonly literalNames: (string | null)[] = [ null, "'|'", 
                                                             "'0'", "'('", 
                                                             "')'", "'+'", 
-                                                            "'\'", "'?'", 
-                                                            "'!'", "'.'", 
-                                                            "','", "'='" ];
+                                                            "'\\'", "'{'", 
+                                                            "','", "'}'", 
+                                                            "'?'", "'!'", 
+                                                            "'.'", "'='" ];
 	public static readonly symbolicNames: (string | null)[] = [ null, null, 
+                                                             null, null, 
                                                              null, null, 
                                                              null, null, 
                                                              null, null, 
@@ -138,6 +141,7 @@ export default class CCSParser extends Parser {
 		let _prevctx: SeqProcContext = localctx;
 		let _startState: number = 2;
 		this.enterRecursionRule(localctx, 2, CCSParser.RULE_seqProc, _p);
+		let _la: number;
 		try {
 			let _alt: number;
 			this.enterOuterAlt(localctx, 1);
@@ -155,7 +159,7 @@ export default class CCSParser extends Parser {
 				this.match(CCSParser.T__1);
 				}
 				break;
-			case 16:
+			case 18:
 				{
 				localctx = new ProcIdContext(this, localctx);
 				this._ctx = localctx;
@@ -187,7 +191,7 @@ export default class CCSParser extends Parser {
 				this.match(CCSParser.T__3);
 				}
 				break;
-			case 15:
+			case 17:
 				{
 				localctx = new ChoiceContext(this, localctx);
 				this._ctx = localctx;
@@ -218,9 +222,9 @@ export default class CCSParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			this._ctx.stop = this._input.LT(-1);
-			this.state = 46;
+			this.state = 58;
 			this._errHandler.sync(this);
-			_alt = this._interp.adaptivePredict(this._input, 4, this._ctx);
+			_alt = this._interp.adaptivePredict(this._input, 6, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					if (this._parseListeners != null) {
@@ -228,23 +232,63 @@ export default class CCSParser extends Parser {
 					}
 					_prevctx = localctx;
 					{
-					{
-					localctx = new RestrictionContext(this, new SeqProcContext(this, _parentctx, _parentState));
-					this.pushNewRecursionContext(localctx, _startState, CCSParser.RULE_seqProc);
-					this.state = 41;
-					if (!(this.precpred(this._ctx, 1))) {
-						throw this.createFailedPredicateException("this.precpred(this._ctx, 1)");
-					}
-					this.state = 42;
-					this.match(CCSParser.T__5);
-					this.state = 43;
-					this.match(CCSParser.EVT_ID);
+					this.state = 56;
+					this._errHandler.sync(this);
+					switch ( this._interp.adaptivePredict(this._input, 5, this._ctx) ) {
+					case 1:
+						{
+						localctx = new RestrictionContext(this, new SeqProcContext(this, _parentctx, _parentState));
+						this.pushNewRecursionContext(localctx, _startState, CCSParser.RULE_seqProc);
+						this.state = 41;
+						if (!(this.precpred(this._ctx, 2))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 2)");
+						}
+						this.state = 42;
+						this.match(CCSParser.T__5);
+						this.state = 43;
+						this.match(CCSParser.EVT_ID);
+						}
+						break;
+					case 2:
+						{
+						localctx = new RestrictionSugarContext(this, new SeqProcContext(this, _parentctx, _parentState));
+						this.pushNewRecursionContext(localctx, _startState, CCSParser.RULE_seqProc);
+						this.state = 44;
+						if (!(this.precpred(this._ctx, 1))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 1)");
+						}
+						this.state = 45;
+						this.match(CCSParser.T__5);
+						this.state = 46;
+						this.match(CCSParser.T__6);
+						this.state = 47;
+						this.match(CCSParser.EVT_ID);
+						this.state = 52;
+						this._errHandler.sync(this);
+						_la = this._input.LA(1);
+						while (_la===8) {
+							{
+							{
+							this.state = 48;
+							this.match(CCSParser.T__7);
+							this.state = 49;
+							this.match(CCSParser.EVT_ID);
+							}
+							}
+							this.state = 54;
+							this._errHandler.sync(this);
+							_la = this._input.LA(1);
+						}
+						this.state = 55;
+						this.match(CCSParser.T__8);
+						}
+						break;
 					}
 					}
 				}
-				this.state = 48;
+				this.state = 60;
 				this._errHandler.sync(this);
-				_alt = this._interp.adaptivePredict(this._input, 4, this._ctx);
+				_alt = this._interp.adaptivePredict(this._input, 6, this._ctx);
 			}
 			}
 		}
@@ -267,23 +311,23 @@ export default class CCSParser extends Parser {
 		let localctx: EvtTypeContext = new EvtTypeContext(this, this._ctx, this.state);
 		this.enterRule(localctx, 4, CCSParser.RULE_evtType);
 		try {
-			this.state = 51;
+			this.state = 63;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
-			case 7:
+			case 10:
 				localctx = new ReceiveContext(this, localctx);
 				this.enterOuterAlt(localctx, 1);
 				{
-				this.state = 49;
-				this.match(CCSParser.T__6);
+				this.state = 61;
+				this.match(CCSParser.T__9);
 				}
 				break;
-			case 8:
+			case 11:
 				localctx = new SendContext(this, localctx);
 				this.enterOuterAlt(localctx, 2);
 				{
-				this.state = 50;
-				this.match(CCSParser.T__7);
+				this.state = 62;
+				this.match(CCSParser.T__10);
 				}
 				break;
 			default:
@@ -311,13 +355,13 @@ export default class CCSParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 53;
+			this.state = 65;
 			this.match(CCSParser.EVT_ID);
-			this.state = 54;
+			this.state = 66;
 			this.evtType();
-			this.state = 55;
-			this.match(CCSParser.T__8);
-			this.state = 56;
+			this.state = 67;
+			this.match(CCSParser.T__11);
+			this.state = 68;
 			this.seqProc(0);
 			}
 		}
@@ -343,35 +387,35 @@ export default class CCSParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 58;
+			this.state = 70;
 			this.match(CCSParser.T__2);
-			this.state = 67;
+			this.state = 79;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===15) {
+			if (_la===17) {
 				{
-				this.state = 59;
+				this.state = 71;
 				this.match(CCSParser.EVT_ID);
-				this.state = 64;
+				this.state = 76;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				while (_la===10) {
+				while (_la===8) {
 					{
 					{
-					this.state = 60;
-					this.match(CCSParser.T__9);
-					this.state = 61;
+					this.state = 72;
+					this.match(CCSParser.T__7);
+					this.state = 73;
 					this.match(CCSParser.EVT_ID);
 					}
 					}
-					this.state = 66;
+					this.state = 78;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 				}
 				}
 			}
 
-			this.state = 69;
+			this.state = 81;
 			this.match(CCSParser.T__3);
 			}
 		}
@@ -397,21 +441,21 @@ export default class CCSParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 71;
+			this.state = 83;
 			this.match(CCSParser.PROC_ID);
-			this.state = 73;
+			this.state = 85;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la===3) {
 				{
-				this.state = 72;
+				this.state = 84;
 				this.defParams();
 				}
 			}
 
-			this.state = 75;
-			this.match(CCSParser.T__10);
-			this.state = 76;
+			this.state = 87;
+			this.match(CCSParser.T__12);
+			this.state = 88;
 			this.proc();
 			}
 		}
@@ -437,21 +481,21 @@ export default class CCSParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 81;
+			this.state = 93;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===16) {
+			while (_la===18) {
 				{
 				{
-				this.state = 78;
+				this.state = 90;
 				this.def();
 				}
 				}
-				this.state = 83;
+				this.state = 95;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 84;
+			this.state = 96;
 			this.match(CCSParser.EOF);
 			}
 		}
@@ -480,36 +524,42 @@ export default class CCSParser extends Parser {
 	private seqProc_sempred(localctx: SeqProcContext, predIndex: number): boolean {
 		switch (predIndex) {
 		case 0:
+			return this.precpred(this._ctx, 2);
+		case 1:
 			return this.precpred(this._ctx, 1);
 		}
 		return true;
 	}
 
-	public static readonly _serializedATN: number[] = [4,1,16,87,2,0,7,0,2,
+	public static readonly _serializedATN: number[] = [4,1,18,99,2,0,7,0,2,
 	1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,1,0,1,0,1,0,1,0,1,0,3,0,20,
 	8,0,1,1,1,1,1,1,1,1,3,1,26,8,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,35,8,1,10,
-	1,12,1,38,9,1,3,1,40,8,1,1,1,1,1,1,1,5,1,45,8,1,10,1,12,1,48,9,1,1,2,1,
-	2,3,2,52,8,2,1,3,1,3,1,3,1,3,1,3,1,4,1,4,1,4,1,4,5,4,63,8,4,10,4,12,4,66,
-	9,4,3,4,68,8,4,1,4,1,4,1,5,1,5,3,5,74,8,5,1,5,1,5,1,5,1,6,5,6,80,8,6,10,
-	6,12,6,83,9,6,1,6,1,6,1,6,0,1,2,7,0,2,4,6,8,10,12,0,0,91,0,19,1,0,0,0,2,
-	39,1,0,0,0,4,51,1,0,0,0,6,53,1,0,0,0,8,58,1,0,0,0,10,71,1,0,0,0,12,81,1,
-	0,0,0,14,15,3,2,1,0,15,16,5,1,0,0,16,17,3,0,0,0,17,20,1,0,0,0,18,20,3,2,
-	1,0,19,14,1,0,0,0,19,18,1,0,0,0,20,1,1,0,0,0,21,22,6,1,-1,0,22,40,5,2,0,
-	0,23,25,5,16,0,0,24,26,3,8,4,0,25,24,1,0,0,0,25,26,1,0,0,0,26,40,1,0,0,
-	0,27,28,5,3,0,0,28,29,3,0,0,0,29,30,5,4,0,0,30,40,1,0,0,0,31,36,3,6,3,0,
-	32,33,5,5,0,0,33,35,3,6,3,0,34,32,1,0,0,0,35,38,1,0,0,0,36,34,1,0,0,0,36,
-	37,1,0,0,0,37,40,1,0,0,0,38,36,1,0,0,0,39,21,1,0,0,0,39,23,1,0,0,0,39,27,
-	1,0,0,0,39,31,1,0,0,0,40,46,1,0,0,0,41,42,10,1,0,0,42,43,5,6,0,0,43,45,
-	5,15,0,0,44,41,1,0,0,0,45,48,1,0,0,0,46,44,1,0,0,0,46,47,1,0,0,0,47,3,1,
-	0,0,0,48,46,1,0,0,0,49,52,5,7,0,0,50,52,5,8,0,0,51,49,1,0,0,0,51,50,1,0,
-	0,0,52,5,1,0,0,0,53,54,5,15,0,0,54,55,3,4,2,0,55,56,5,9,0,0,56,57,3,2,1,
-	0,57,7,1,0,0,0,58,67,5,3,0,0,59,64,5,15,0,0,60,61,5,10,0,0,61,63,5,15,0,
-	0,62,60,1,0,0,0,63,66,1,0,0,0,64,62,1,0,0,0,64,65,1,0,0,0,65,68,1,0,0,0,
-	66,64,1,0,0,0,67,59,1,0,0,0,67,68,1,0,0,0,68,69,1,0,0,0,69,70,5,4,0,0,70,
-	9,1,0,0,0,71,73,5,16,0,0,72,74,3,8,4,0,73,72,1,0,0,0,73,74,1,0,0,0,74,75,
-	1,0,0,0,75,76,5,11,0,0,76,77,3,0,0,0,77,11,1,0,0,0,78,80,3,10,5,0,79,78,
-	1,0,0,0,80,83,1,0,0,0,81,79,1,0,0,0,81,82,1,0,0,0,82,84,1,0,0,0,83,81,1,
-	0,0,0,84,85,5,0,0,1,85,13,1,0,0,0,10,19,25,36,39,46,51,64,67,73,81];
+	1,12,1,38,9,1,3,1,40,8,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,51,8,1,
+	10,1,12,1,54,9,1,1,1,5,1,57,8,1,10,1,12,1,60,9,1,1,2,1,2,3,2,64,8,2,1,3,
+	1,3,1,3,1,3,1,3,1,4,1,4,1,4,1,4,5,4,75,8,4,10,4,12,4,78,9,4,3,4,80,8,4,
+	1,4,1,4,1,5,1,5,3,5,86,8,5,1,5,1,5,1,5,1,6,5,6,92,8,6,10,6,12,6,95,9,6,
+	1,6,1,6,1,6,0,1,2,7,0,2,4,6,8,10,12,0,0,105,0,19,1,0,0,0,2,39,1,0,0,0,4,
+	63,1,0,0,0,6,65,1,0,0,0,8,70,1,0,0,0,10,83,1,0,0,0,12,93,1,0,0,0,14,15,
+	3,2,1,0,15,16,5,1,0,0,16,17,3,0,0,0,17,20,1,0,0,0,18,20,3,2,1,0,19,14,1,
+	0,0,0,19,18,1,0,0,0,20,1,1,0,0,0,21,22,6,1,-1,0,22,40,5,2,0,0,23,25,5,18,
+	0,0,24,26,3,8,4,0,25,24,1,0,0,0,25,26,1,0,0,0,26,40,1,0,0,0,27,28,5,3,0,
+	0,28,29,3,0,0,0,29,30,5,4,0,0,30,40,1,0,0,0,31,36,3,6,3,0,32,33,5,5,0,0,
+	33,35,3,6,3,0,34,32,1,0,0,0,35,38,1,0,0,0,36,34,1,0,0,0,36,37,1,0,0,0,37,
+	40,1,0,0,0,38,36,1,0,0,0,39,21,1,0,0,0,39,23,1,0,0,0,39,27,1,0,0,0,39,31,
+	1,0,0,0,40,58,1,0,0,0,41,42,10,2,0,0,42,43,5,6,0,0,43,57,5,17,0,0,44,45,
+	10,1,0,0,45,46,5,6,0,0,46,47,5,7,0,0,47,52,5,17,0,0,48,49,5,8,0,0,49,51,
+	5,17,0,0,50,48,1,0,0,0,51,54,1,0,0,0,52,50,1,0,0,0,52,53,1,0,0,0,53,55,
+	1,0,0,0,54,52,1,0,0,0,55,57,5,9,0,0,56,41,1,0,0,0,56,44,1,0,0,0,57,60,1,
+	0,0,0,58,56,1,0,0,0,58,59,1,0,0,0,59,3,1,0,0,0,60,58,1,0,0,0,61,64,5,10,
+	0,0,62,64,5,11,0,0,63,61,1,0,0,0,63,62,1,0,0,0,64,5,1,0,0,0,65,66,5,17,
+	0,0,66,67,3,4,2,0,67,68,5,12,0,0,68,69,3,2,1,0,69,7,1,0,0,0,70,79,5,3,0,
+	0,71,76,5,17,0,0,72,73,5,8,0,0,73,75,5,17,0,0,74,72,1,0,0,0,75,78,1,0,0,
+	0,76,74,1,0,0,0,76,77,1,0,0,0,77,80,1,0,0,0,78,76,1,0,0,0,79,71,1,0,0,0,
+	79,80,1,0,0,0,80,81,1,0,0,0,81,82,5,4,0,0,82,9,1,0,0,0,83,85,5,18,0,0,84,
+	86,3,8,4,0,85,84,1,0,0,0,85,86,1,0,0,0,86,87,1,0,0,0,87,88,5,13,0,0,88,
+	89,3,0,0,0,89,11,1,0,0,0,90,92,3,10,5,0,91,90,1,0,0,0,92,95,1,0,0,0,93,
+	91,1,0,0,0,93,94,1,0,0,0,94,96,1,0,0,0,95,93,1,0,0,0,96,97,5,0,0,1,97,13,
+	1,0,0,0,12,19,25,36,39,52,56,58,63,76,79,85,93];
 
 	private static __ATN: ATN;
 	public static get _ATN(): ATN {
@@ -746,6 +796,39 @@ export class ChoiceContext extends SeqProcContext {
 	public accept<Result>(visitor: CCSVisitor<Result>): Result {
 		if (visitor.visitChoice) {
 			return visitor.visitChoice(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+export class RestrictionSugarContext extends SeqProcContext {
+	constructor(parser: CCSParser, ctx: SeqProcContext) {
+		super(parser, ctx.parentCtx, ctx.invokingState);
+		super.copyFrom(ctx);
+	}
+	public seqProc(): SeqProcContext {
+		return this.getTypedRuleContext(SeqProcContext, 0) as SeqProcContext;
+	}
+	public EVT_ID_list(): TerminalNode[] {
+	    	return this.getTokens(CCSParser.EVT_ID);
+	}
+	public EVT_ID(i: number): TerminalNode {
+		return this.getToken(CCSParser.EVT_ID, i);
+	}
+	public enterRule(listener: CCSListener): void {
+	    if(listener.enterRestrictionSugar) {
+	 		listener.enterRestrictionSugar(this);
+		}
+	}
+	public exitRule(listener: CCSListener): void {
+	    if(listener.exitRestrictionSugar) {
+	 		listener.exitRestrictionSugar(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: CCSVisitor<Result>): Result {
+		if (visitor.visitRestrictionSugar) {
+			return visitor.visitRestrictionSugar(this);
 		} else {
 			return visitor.visitChildren(this);
 		}

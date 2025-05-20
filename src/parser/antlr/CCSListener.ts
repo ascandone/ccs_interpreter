@@ -10,6 +10,7 @@ import { ParenthesizedContext } from "./CCSParser.js";
 import { ProcIdContext } from "./CCSParser.js";
 import { RestrictionContext } from "./CCSParser.js";
 import { ChoiceContext } from "./CCSParser.js";
+import { RestrictionSugarContext } from "./CCSParser.js";
 import { ReceiveContext } from "./CCSParser.js";
 import { SendContext } from "./CCSParser.js";
 import { ChoiceClauseContext } from "./CCSParser.js";
@@ -107,6 +108,18 @@ export default class CCSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitChoice?: (ctx: ChoiceContext) => void;
+	/**
+	 * Enter a parse tree produced by the `restrictionSugar`
+	 * labeled alternative in `CCSParser.seqProc`.
+	 * @param ctx the parse tree
+	 */
+	enterRestrictionSugar?: (ctx: RestrictionSugarContext) => void;
+	/**
+	 * Exit a parse tree produced by the `restrictionSugar`
+	 * labeled alternative in `CCSParser.seqProc`.
+	 * @param ctx the parse tree
+	 */
+	exitRestrictionSugar?: (ctx: RestrictionSugarContext) => void;
 	/**
 	 * Enter a parse tree produced by the `receive`
 	 * labeled alternative in `CCSParser.evtType`.

@@ -19,6 +19,7 @@ seqProc
 	| '(' proc ')'		# parenthesized
 	| choiceClause ('+' choiceClause)*		# choice
 	| seqProc '\\' EVT_ID	# restriction
+	| seqProc '\\' '{' EVT_ID ( ',' EVT_ID)* '}'	# restrictionSugar
 	;
 
 evtType: '?' # receive | '!' # send;

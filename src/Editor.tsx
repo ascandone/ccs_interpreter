@@ -83,7 +83,16 @@ const CCS_LANGUAGE_CONFIG: languages.LanguageConfiguration = {
   comments: {
     lineComment: "//",
   },
-  brackets: [["(", ")"]],
-  autoClosingPairs: [{ open: "(", close: ")" }],
-  surroundingPairs: [{ open: "(", close: ")" }],
+  brackets: [
+    ["(", ")"],
+    ["{", "}"],
+  ],
+  autoClosingPairs: [
+    { open: "(", close: ")" },
+    { open: "{", close: "}" },
+  ],
+  surroundingPairs: [
+    { open: "(", close: ")" },
+    { open: "{", close: "}" },
+  ],
 };

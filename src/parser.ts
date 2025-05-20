@@ -38,6 +38,15 @@ class ProcessVisitor extends Visitor<ast.Process> {
     label: ctx.EVT_ID().getText(),
     process: this.visit(ctx.seqProc()),
   });
+  visitRestrictionSugar = (ctx: parser.RestrictionSugarContext): ast.Process =>
+    ctx.EVT_ID_list().reduce(
+      (process, id): ast.Process => ({
+        type: "restriction",
+        process,
+        label: id.getText(),
+      }),
+      this.visit(ctx.seqProc()),
+    );
   visitProcId = (ctx: parser.ProcIdContext): ast.Process => ({
     type: "ident",
     args:
