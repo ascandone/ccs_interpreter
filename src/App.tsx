@@ -83,24 +83,32 @@ const Simulator: FC<{ source: string }> = ({ source }) => {
 
   return (
     <div className="w-full">
-      {running ? (
-        <button
-          type="button"
-          className={`${btnStyle}  bg-red-700 hover:bg-red-800`}
-          onClick={handleStop}
-        >
-          Stop
-        </button>
-      ) : (
-        <button
-          type="button"
-          className={`${btnStyle} bg-blue-700 hover:bg-blue-800`}
-          onClick={handleRun}
-        >
-          Run
-        </button>
-      )}
+      <div className="flex flex-row gap-x-3 items-center">
+        {running ? (
+          <button
+            type="button"
+            className={`${btnStyle}  bg-red-700 hover:bg-red-800`}
+            onClick={handleStop}
+          >
+            Stop
+          </button>
+        ) : (
+          <button
+            type="button"
+            className={`${btnStyle} bg-blue-700 hover:bg-blue-800`}
+            onClick={handleRun}
+          >
+            Run
+          </button>
+        )}
 
+        <a
+          href="https://github.com/ascandone/ccs_interpreter"
+          className="font-mono text-sm underline text-blue-800"
+        >
+          source code
+        </a>
+      </div>
       <div className="h-2"></div>
 
       {visibleChoices.length === 0 ? null : (
