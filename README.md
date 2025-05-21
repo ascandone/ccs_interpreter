@@ -1,4 +1,5 @@
-## CCS interpreter
+## CCS interpreter
+
 A simple interpreter for CCS.
 
 Syntax:
